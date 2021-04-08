@@ -8,16 +8,50 @@
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css"
     />
+    <link
+      rel="stylesheet"
+      href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
+      integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf"
+      crossorigin="anonymous"
+    />
     <link rel="stylesheet" href="assets/css/style.css" />
     <title>Document</title>
   </head>
   <body>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <header>
+      <nav>
+        <div class="nav-wrapper">
+          <a href="#" data-target="mobile-demo" class="sidenav-trigger"
+            ><i class="material-icons fas fa-bars"></i
+          ></a>
+          <a href="#" class="brand-logo center">Logo</a>
+          <ul id="nav-mobile" class="left hide-on-med-and-down search-bar">
+            <li><input type="text" placeholder="search" /></li>
+          </ul>
+          <ul class="right hide-on-med-and-down">
+            <li>
+              <a class="waves-effect waves-light btn"
+                >Favourites <i class="material-icons right fas fa-heart"></i
+              ></a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+      <ul class="sidenav" id="mobile-demo">
+        <li><input type="text" placeholder="search" /></li>
+        <li>
+          <a class="waves-effect waves-light btn"
+            >Favourites <i class="material-icons right fas fa-heart"></i
+          ></a>
+        </li>
+      </ul>
+    </header>
     <script
       src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"
       integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ=="
       crossorigin="anonymous"
     ></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
     <script src="assets/js/script.js"></script>
   </body>
 </html>
