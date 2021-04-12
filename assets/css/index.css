@@ -6,10 +6,6 @@
   --orange: #fb8500ff;
 }
 
-.searchBar {
-  width: 75% !important;
-}
-
 #favouriteButton {
   background-color: var(--orange);
 }
@@ -24,14 +20,11 @@
 }
 
 .search-container {
-  width: 50%;
+  width: 65%;
   position: absolute;
   left: 50%;
-  top: 50%;
+  top: 45%;
   transform: translate(-50%, -50%);
-}
-
-.search-info {
   line-height: 70px;
 }
 
