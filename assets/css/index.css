@@ -15,9 +15,27 @@
 }
 
 .travel-nav {
+  min-height: 10vh !important;
   background-color: var(--prussian-blue) !important;
 }
 
 .travel-title {
   color: var(--light-cornflower-blue);
+}
+
+.search-container {
+  width: 50%;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.search-info {
+  line-height: 70px;
+}
+
+main {
+  height: 87vh;
+  margin: 1%;
 }

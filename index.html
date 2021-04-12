@@ -19,14 +19,11 @@
         class="ui inverted fluid three item stackable menu navbar travel-nav"
       >
         <div class="item">
-          <div class="ui icon input searchBar">
-            <input type="text" placeholder="Search..." />
-            <i class="search icon"></i>
-          </div>
+          <div class="ui icon input searchBar" id="search-nav"></div>
         </div>
         <div class="item">
           <h2 class="ui header">
-            <img class="ui image" src="/images/icons/school.png" />
+            <img class="ui image" src="" />
             <div class="content travel-title">Travel Companion</div>
           </h2>
         </div>
@@ -42,6 +39,33 @@
         </div>
       </div>
     </header>
+    <main class="container" id="main-container">
+      <!-- initial search container section -->
+      <div class="search-container" id="search-container">
+        <form class="ui large form" id="start-form">
+          <div class="ui center aligned raised very padded segment search-info">
+            <h2 class="padded">Where would you like to go?</h2>
+            <div class="field">
+              <div class="ui left icon input">
+                <i class="search icon"></i>
+                <input
+                  type="text"
+                  name="country"
+                  placeholder="Enter a country"
+                  id="search-bar"
+                />
+              </div>
+            </div>
+            <button
+              class="ui fluid large teal submit button submit-btn"
+              type="submit"
+            >
+              Search!
+            </button>
+          </div>
+        </form>
+      </div>
+    </main>
     <script
       src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"
       integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ=="
