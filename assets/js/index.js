@@ -7,24 +7,24 @@ const fetchData = async (url) => {
   } catch (error) {}
 };
 
-// extract needed data from REST countries api call to construct country card
-const getCountryCardData = async (countryCardData) => {
-  return {
-    name: await countryCardData[0].name,
-    flag: await countryCardData[0].flag,
-    capital: await countryCardData[0].capital,
-    language: await countryCardData[0].languages[0].name,
-    currency: await countryCardData[0].currencies[0].name,
-  };
-};
-
 //function to build URL for REST countries to get data for country card
 const createCountryCardUrl = (countryName) => {
   return `https://restcountries.eu/rest/v2/name/${countryName}`;
 };
 
+// extract needed data from REST countries api call to construct country card
+const getCountryCardData = async (restApiData) => {
+  return {
+    name: await restApiData[0].name,
+    flag: await restApiData[0].flag,
+    capital: await restApiData[0].capital,
+    language: await restApiData[0].languages[0].name,
+    currency: await restApiData[0].currencies[0].name,
+  };
+};
+
 // function to remove search container and append main sections
-const removeSearchAndAppendMain = async () => {
+const removeSearchAndAppendMain = async (restApiData) => {
   //remove search container
   $("#search-container").remove();
 
@@ -46,11 +46,12 @@ const onSubmit = async (event) => {
 
   // create URL + fetch data for country card
   const urlForCountryCard = createCountryCardUrl(countryName);
-  const countryCardData = await fetchData(urlForCountryCard);
+  const restApiData = await fetchData(urlForCountryCard);
+  const countryCardData = await getCountryCardData(restApiData);
   console.log(countryCardData);
 
   // remove search container and append search results container
-  removeSearchAndAppendMain();
+  removeSearchAndAppendMain(restApiData);
 };
 
 $("#start-form").on("submit", onSubmit);
