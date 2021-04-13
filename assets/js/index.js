@@ -7,6 +7,17 @@ const fetchData = async (url) => {
   } catch (error) {}
 };
 
+// extract needed data from REST countries api call to construct country card
+const getCountryCardData = async (countryCardData) => {
+  return {
+    name: await countryCardData[0].name,
+    flag: await countryCardData[0].flag,
+    capital: await countryCardData[0].capital,
+    language: await countryCardData[0].languages[0].name,
+    currency: await countryCardData[0].currencies[0].name,
+  };
+};
+
 //function to build URL for REST countries to get data for country card
 const createCountryCardUrl = (countryName) => {
   return `https://restcountries.eu/rest/v2/name/${countryName}`;
