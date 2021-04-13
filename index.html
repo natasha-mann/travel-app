@@ -16,24 +16,23 @@
   <body>
     <header>
       <div
-        class="ui inverted fluid three item stackable menu navbar travel-nav"
+        class="ui inverted three item menu stackable attached travel-nav"
+        id="navbar"
       >
-        <div class="item">
-          <div class="ui icon input searchBar">
-            <input type="text" placeholder="Search..." />
-            <i class="search icon"></i>
-          </div>
-        </div>
+        <!-- Search bar component added dynamically in javascript on initial search-->
+
+        <!-- App heading component -->
         <div class="item">
           <h2 class="ui header">
-            <img class="ui image" src="/images/icons/school.png" />
+            <img class="ui image" src="" />
             <div class="content travel-title">Travel Companion</div>
           </h2>
         </div>
 
+        <!-- Navigate to favourites component -->
         <div class="item aligned right">
           <button
-            class="ui inverted right labeled icon button"
+            class="ui inverted aligned right labeled icon button"
             id="favouriteButton"
           >
             <i class="right heart icon"></i>
@@ -42,6 +41,31 @@
         </div>
       </div>
     </header>
+    <main class="container" id="main-container">
+      <!-- initial search container section -->
+      <div
+        class="ui center aligned very padded raised segment search-container"
+        id="search-container"
+      >
+        <form class="ui large form" id="start-form">
+          <h2 class="padded">Where would you like to go?</h2>
+          <div class="field">
+            <div class="ui left icon input">
+              <i class="search icon"></i>
+              <input
+                type="text"
+                name="country"
+                placeholder="Enter a country"
+                id="search-bar"
+              />
+            </div>
+          </div>
+          <button class="ui fluid large teal submit button" type="submit">
+            Search!
+          </button>
+        </form>
+      </div>
+    </main>
     <script
       src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"
       integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ=="

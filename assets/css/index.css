@@ -6,18 +6,29 @@
   --orange: #fb8500ff;
 }
 
-.searchBar {
-  width: 75% !important;
-}
-
 #favouriteButton {
   background-color: var(--orange);
 }
 
 .travel-nav {
+  min-height: 10vh !important;
   background-color: var(--prussian-blue) !important;
 }
 
 .travel-title {
   color: var(--light-cornflower-blue);
+}
+
+.search-container {
+  width: 65%;
+  position: absolute;
+  left: 50%;
+  top: 45%;
+  transform: translate(-50%, -50%);
+  line-height: 70px;
+}
+
+main {
+  height: 87vh;
+  margin: 1%;
 }
