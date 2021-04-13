@@ -9,6 +9,25 @@ const fetchData = async (url) => {
   }
 };
 
+const renderCountryCard = (data) => {
+  const countryCard = `<div class="ui centered card">
+  <div class="image">
+    <img src="${data.flag}" />
+  </div>
+  <div class="content">
+    <a class="header">${data.name}</a>
+    <div class="description">Capital: ${data.capital}</div>
+    <div class="description">Language: ${data.language}</div>
+    <div class="description">Currency: ${data.currency}</div>
+  </div>
+  <div class="ui bottom attached button">
+    <i class="heart icon"></i>
+    Add to Favourites
+  </div>
+</div>`;
+  $("#main-container").append(countryCard);
+};
+
 //function to build URL for REST countries to get data for country card
 const createCountryCardUrl = (countryName) =>
   `https://restcountries.eu/rest/v2/name/${countryName}`;
@@ -70,6 +89,7 @@ const onSubmit = async (event) => {
         // remove search container and append search results container
         removeSearchAndAppendMain();
       }
+      renderCountryCard(countryCardData);
     }
   }
 };
