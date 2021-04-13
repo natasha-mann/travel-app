@@ -1,3 +1,8 @@
+//function to build URL for REST countries to get data for country card
+const createCountryCardUrl = (countryName) => {
+  return `https://restcountries.eu/rest/v2/name/${countryName}`;
+};
+
 // function to remove search container and append main sections
 const removeSearchAndAppendMain = async () => {
   //remove search container
@@ -18,6 +23,9 @@ const onSubmit = async (event) => {
 
   const countryName = $("#search-bar").val();
   console.log(countryName);
+
+  // create URL + fetch data for country card
+  const urlForCountryCard = createCountryCardUrl(countryName);
 
   // remove search container and append search results container
   removeSearchAndAppendMain();
