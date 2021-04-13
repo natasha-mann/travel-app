@@ -1,3 +1,12 @@
+// async await - function to fetch data from api (taking in a url) and returns the data
+const fetchData = async (url) => {
+  try {
+    const response = await fetch(url);
+    const data = await response.json();
+    return data;
+  } catch (error) {}
+};
+
 //function to build URL for REST countries to get data for country card
 const createCountryCardUrl = (countryName) => {
   return `https://restcountries.eu/rest/v2/name/${countryName}`;
@@ -26,6 +35,8 @@ const onSubmit = async (event) => {
 
   // create URL + fetch data for country card
   const urlForCountryCard = createCountryCardUrl(countryName);
+  const countryCardData = await fetchData(urlForCountryCard);
+  console.log(countryCardData);
 
   // remove search container and append search results container
   removeSearchAndAppendMain();
