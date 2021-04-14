@@ -10,6 +10,11 @@
   background-color: var(--orange);
 }
 
+.favouritesLink {
+  text-decoration: none;
+  color: #fff;
+}
+
 .travel-nav {
   min-height: 10vh !important;
   background-color: var(--prussian-blue) !important;
