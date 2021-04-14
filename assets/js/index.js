@@ -46,11 +46,11 @@ const renderCountryCard = (data) => {
 //currency Input
 const renderCurrencyCard = () => {
   const currencyCard = `
-<div class="ui card">
-  <div class="content card-header">
+<div class="ui segments">
+  <div class="ui segment card-header">
     <div class="header center aligned card-title">Currency Converter</div>
   </div>
-  <div class="content">
+  <div class="ui segment">
     <div class="ui form">
       <h3>The currency in Spain is Euro</h3>
       <div class="field">
@@ -75,13 +75,13 @@ const renderCurrencyCard = () => {
 
 //health and vaccines
 const renderHealthCard = () => {
-  const healthCard = `<div class="ui card">
-  <div class="content card-header">
+  const healthCard = `<div class="ui segments">
+  <div class="ui segment card-header">
     <div class="header center aligned card-title">
       Health & Vaccines for spain
     </div>
   </div>
-  <div class="content">
+  <div class="ui segment">
     <p>some text here</p>
   </div>
 </div>`;
