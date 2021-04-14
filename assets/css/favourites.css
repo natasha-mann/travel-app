@@ -1,1 +1,26 @@
+:root {
+  --light-cornflower-blue: #8ecae6ff;
+  --blue-green: #219ebcff;
+  --prussian-blue: #023047ff;
+  --honey-yellow: #ffb703ff;
+  --orange: #fb8500ff;
+}
 
+#homeButton {
+  background-color: var(--orange);
+}
+
+.travel-nav {
+  min-height: 10vh !important;
+  background-color: var(--prussian-blue) !important;
+  border: 0px !important;
+}
+
+.travel-title {
+  color: var(--light-cornflower-blue);
+}
+
+main {
+  height: 87vh;
+  margin: 1%;
+}
