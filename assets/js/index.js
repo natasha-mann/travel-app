@@ -25,7 +25,7 @@ const renderCountryCard = (data) => {
     Add to Favourites
   </div>
 </div>`;
-  $("#main-container").append(countryCard);
+  $("#country-card").append(countryCard);
 };
 
 //function to build URL for REST countries to get data for country card
@@ -71,6 +71,36 @@ const removeSearchAndAppendMain = async () => {
   </div>
 `);
   $("#nav-form").on("submit", onSubmit);
+
+  // add main grid
+  $("#main-container").append(`
+  <div class="ui two column stackable divided grid">
+    <div class="stretched row">
+      <div class="sixteen wide mobile four wide tablet four wide computer column side-col">
+            
+        <!-- welcome container -->
+        <div class="ui orange center aligned attached segment" id="welcome-card">
+        </div>
+
+        <!-- country container -->
+        <div class="ui center aligned attached segment" id="country-card">
+        </div>
+      </div>
+
+      <div class="sixteen wide mobile twelve wide tablet twelve wide computer column main-col">
+
+        <!-- places container -->
+        <div class="ui horizontal segments" id="places-container">
+        </div>
+
+        <div class="ui horizontal segments">
+          <div class="ui compact segment" id="vaccines-container"></div>
+          <div class="ui segment" id="currency-container"></div>
+        </div>
+      </div>
+            
+    </div>
+  </div>`);
 };
 
 // function called on submit of search form
