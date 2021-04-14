@@ -43,6 +43,52 @@ const renderCountryCard = (data) => {
   $("#country-card").append(countryCard);
 };
 
+//currency Input
+const renderCurrencyCard = () => {
+  const currencyCard = `
+<div class="ui segments">
+  <div class="ui segment card-header">
+    <div class="header center aligned card-title">Currency Converter</div>
+  </div>
+  <div class="ui segment">
+    <div class="ui form">
+      <h3>The currency in Spain is Euro</h3>
+      <div class="field">
+        <label id="currency">Euro</label>
+        <input type="number" name="" />
+      </div>
+      <div class="field">
+        <select class="ui fluid dropdown">
+          <option value="">Select a Currency</option>
+          <option value="AL">Alabama</option>
+        </select>
+      </div>
+      <div class="field">
+        <input type="number" name="" placeholder="rate" />
+      </div>
+    </div>
+  </div>
+</div>`;
+  $("#currency-container").empty();
+  $("#currency-container").append(currencyCard);
+};
+
+//health and vaccines
+const renderHealthCard = () => {
+  const healthCard = `<div class="ui segments">
+  <div class="ui segment card-header">
+    <div class="header center aligned card-title">
+      Health & Vaccines for spain
+    </div>
+  </div>
+  <div class="ui segment">
+    <p>some text here</p>
+  </div>
+</div>`;
+  $("#health-container").empty();
+  $("#health-container").append(healthCard);
+};
+
 //function to build URL for REST countries to get data for country card
 const createCountryCardUrl = (countryName) =>
   `https://restcountries.eu/rest/v2/name/${countryName}`;
@@ -109,7 +155,7 @@ const removeSearchAndAppendMain = async () => {
         </div>
 
         <div class="ui horizontal segments">
-          <div class="ui compact segment" id="vaccines-container"></div>
+          <div class="ui compact segment" id="health-container"></div>
           <div class="ui segment" id="currency-container"></div>
         </div>
       </div>
@@ -136,6 +182,8 @@ const onSubmit = async (event) => {
       }
       renderCountryCard(countryCardData);
       renderWelcomeCard(countryCardData);
+      renderCurrencyCard();
+      renderHealthCard();
     }
   }
 };
