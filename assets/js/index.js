@@ -42,6 +42,35 @@ const renderCountryCard = (data) => {
   $("#country-card").empty();
   $("#country-card").append(countryCard);
 };
+//currency Input
+const renderCurrencyCard = () => {
+  const currencyCard = `
+<div class="ui card">
+  <div class="content card-header">
+    <div class="header center aligned card-title">Currency Converter</div>
+  </div>
+  <div class="content">
+    <div class="ui form">
+      <h3>The currency in Spain is Euro</h3>
+      <div class="field">
+        <label id="currency">Euro</label>
+        <input type="number" name="" />
+      </div>
+      <div class="field">
+        <select class="ui fluid dropdown">
+          <option value="">Select a Currency</option>
+          <option value="AL">Alabama</option>
+        </select>
+      </div>
+      <div class="field">
+        <input type="number" name="" placeholder="rate" />
+      </div>
+    </div>
+  </div>
+</div>`;
+  $("#currency-container").empty();
+  $("#currency-container").append(currencyCard);
+};
 
 //function to build URL for REST countries to get data for country card
 const createCountryCardUrl = (countryName) =>
@@ -136,6 +165,7 @@ const onSubmit = async (event) => {
       }
       renderCountryCard(countryCardData);
       renderWelcomeCard(countryCardData);
+      renderCurrencyCard();
     }
   }
 };
