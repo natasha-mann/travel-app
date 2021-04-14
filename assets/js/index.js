@@ -42,6 +42,7 @@ const renderCountryCard = (data) => {
   $("#country-card").empty();
   $("#country-card").append(countryCard);
 };
+
 //currency Input
 const renderCurrencyCard = () => {
   const currencyCard = `
@@ -70,6 +71,22 @@ const renderCurrencyCard = () => {
 </div>`;
   $("#currency-container").empty();
   $("#currency-container").append(currencyCard);
+};
+
+//health and vaccines
+const renderHealthCard = () => {
+  const healthCard = `<div class="ui card">
+  <div class="content card-header">
+    <div class="header center aligned card-title">
+      Health & Vaccines for spain
+    </div>
+  </div>
+  <div class="content">
+    <p>some text here</p>
+  </div>
+</div>`;
+  $("#health-container").empty();
+  $("#health-container").append(healthCard);
 };
 
 //function to build URL for REST countries to get data for country card
@@ -138,7 +155,7 @@ const removeSearchAndAppendMain = async () => {
         </div>
 
         <div class="ui horizontal segments">
-          <div class="ui compact segment" id="vaccines-container"></div>
+          <div class="ui compact segment" id="health-container"></div>
           <div class="ui segment" id="currency-container"></div>
         </div>
       </div>
@@ -166,6 +183,7 @@ const onSubmit = async (event) => {
       renderCountryCard(countryCardData);
       renderWelcomeCard(countryCardData);
       renderCurrencyCard();
+      renderHealthCard();
     }
   }
 };
