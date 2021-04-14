@@ -39,11 +39,12 @@ main {
   margin: 1%;
 }
 
-.currency {
+.card-header {
   background-color: var(--prussian-blue) !important;
-  color: var(--light-cornflower-blue);
 }
-
+.card-title {
+  color: var(--light-cornflower-blue) !important;
+}
 @media screen and (max-width: 480px) {
   .search-container {
     width: 80%;
