@@ -9,6 +9,20 @@ const fetchData = async (url) => {
   }
 };
 
+// welcome card
+const renderWelcomeCard = (data) => {
+  const welcomeCard = `<div class="ui message">
+  <div class="header">Welcome!</div>
+  <p>
+    We hope you find the information about ${data.name} useful! Take a
+    look around and make sure to add your countries to your favourites.
+  </p>
+</div>`;
+  $("#welcome-card").empty();
+  $("#welcome-card").append(welcomeCard);
+};
+
+// country card
 const renderCountryCard = (data) => {
   const countryCard = `<div class="ui centered card">
   <div class="image">
@@ -25,6 +39,7 @@ const renderCountryCard = (data) => {
     Add to Favourites
   </div>
 </div>`;
+  $("#country-card").empty();
   $("#country-card").append(countryCard);
 };
 
@@ -120,6 +135,7 @@ const onSubmit = async (event) => {
         removeSearchAndAppendMain();
       }
       renderCountryCard(countryCardData);
+      renderWelcomeCard(countryCardData);
     }
   }
 };
