@@ -39,6 +39,11 @@ main {
   margin: 1%;
 }
 
+.currency {
+  background-color: var(--prussian-blue) !important;
+  color: var(--light-cornflower-blue);
+}
+
 @media screen and (max-width: 480px) {
   .search-container {
     width: 80%;
