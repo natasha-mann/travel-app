@@ -43,24 +43,12 @@ const renderCountryCard = (data) => {
   $("#country-card").append(countryCard);
 };
 
-const renderPlacesCard = () => {
+const renderPlacesCard = (countryCardData, listItemData) => {
   const placesCard = `<div class="ui segment">
   <div class="ui center aligned segment card-header">
-    <h3 class="card-title">Places to see in Madrid</h3>
+    <h3 class="card-title">Places to see in ${countryCardData.capital}</h3>
   </div>
   <div class="ui celled selection list" id ="places-list">
-    <div class="item">
-      <div class="content">Description</div>
-    </div>
-    <div class="item">
-      <div class="content">Description</div>
-    </div>
-    <div class="item">
-      <div class="content">Description</div>
-    </div>
-    <div class="item">
-      <div class="content">Description</div>
-    </div>
   </div>
   <div class="ui fluid button" id ="places-button">Show more</div>
 </div>
@@ -73,6 +61,17 @@ const renderPlacesCard = () => {
 </div> `;
   $("#places-container").empty();
   $("#places-container").append(placesCard);
+
+  listItemData.forEach(buildListItem);
+};
+
+// build list item for places container
+const buildListItem = (item) => {
+  $("#places-list").append(`
+  <div class="item">
+    <div class="content" data-xid="${item.xid}">${item.name}</div>
+  </div>
+  `);
 };
 
 //currency Input
@@ -134,6 +133,19 @@ const getCountryCardData = async (restApiData) => {
     capital: await data.capital,
     language: await data.languages[0].name,
     currency: await data.currencies[0].name,
+  };
+};
+
+// extract needed data from open trip map api call to construct places list
+const getListItemData = async (data) => {
+  return data.map(getEachData);
+};
+
+const getEachData = (item) => {
+  return {
+    name: item.name,
+    type: item.kinds,
+    xid: item.xid,
   };
 };
 
@@ -228,13 +240,15 @@ const onSubmit = async (event) => {
         pageLength
       );
       const listData = await fetchData(urlForListItems);
+      const listItemData = await getListItemData(listData);
+
       if (event.target.id === "start-form") {
         // remove search container and append search results container
         removeSearchAndAppendMain();
       }
       renderCountryCard(countryCardData);
       renderWelcomeCard(countryCardData);
-      renderPlacesCard();
+      renderPlacesCard(countryCardData, listItemData);
       renderCurrencyCard();
       renderHealthCard();
     }
