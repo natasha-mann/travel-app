@@ -43,6 +43,36 @@ const renderCountryCard = (data) => {
   $("#country-card").append(countryCard);
 };
 
+const renderPlacesContainer = () => {
+  const placesContainer = `<div class="ui segment">
+  <div class="ui center aligned segment card-header">
+    <h3 class="card-title">Places to see in Madrid</h3>
+  </div>
+  <div class="ui celled selection list">
+    <div class="item">
+      <div class="content">Description</div>
+    </div>
+    <div class="item">
+      <div class="content">Description</div>
+    </div>
+    <div class="item">
+      <div class="content">Description</div>
+    </div>
+    <div class="item">
+      <div class="content">Description</div>
+    </div>
+  </div>
+  <div class="ui fluid button">Show more</div>
+</div>
+
+<div class="ui placeholder segment">
+  <div class="ui fluid card">
+    <div class="image"><img src="" /></div>
+    <div class="content"></div>
+  </div>
+</div> `;
+};
+
 //currency Input
 const renderCurrencyCard = () => {
   const currencyCard = `
