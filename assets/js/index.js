@@ -213,7 +213,7 @@ const onSubmit = async (event) => {
       const countryCardData = await getCountryCardData(restApiData);
       const apiKey = "5ae2e3f221c38a28845f05b6fac16143ca6a7e70223b17f1cc98d3e7";
       const urlForPlacesCard = createPlacesCardUrl(countryCardData, apiKey);
-      console.log(urlForPlacesCard);
+      const placesData = await fetchData(urlForPlacesCard);
       if (event.target.id === "start-form") {
         // remove search container and append search results container
         removeSearchAndAppendMain();
