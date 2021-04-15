@@ -45,6 +45,7 @@ main {
 .card-title {
   color: var(--light-cornflower-blue) !important;
 }
+
 @media screen and (max-width: 480px) {
   .search-container {
     width: 80%;
