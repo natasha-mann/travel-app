@@ -43,8 +43,8 @@ const renderCountryCard = (data) => {
   $("#country-card").append(countryCard);
 };
 
-const renderPlacesContainer = () => {
-  const placesContainer = `<div class="ui segment">
+const renderPlacesCard = () => {
+  const placesCard = `<div class="ui segment">
   <div class="ui center aligned segment card-header">
     <h3 class="card-title">Places to see in Madrid</h3>
   </div>
@@ -71,6 +71,8 @@ const renderPlacesContainer = () => {
     <div class="content"></div>
   </div>
 </div> `;
+  $("#places-container").empty();
+  $("#places-container").append(placesCard);
 };
 
 //currency Input
@@ -212,6 +214,7 @@ const onSubmit = async (event) => {
       }
       renderCountryCard(countryCardData);
       renderWelcomeCard(countryCardData);
+      renderPlacesCard();
       renderCurrencyCard();
       renderHealthCard();
     }
