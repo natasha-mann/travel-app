@@ -10,9 +10,15 @@
   background-color: var(--orange);
 }
 
+.favouritesLink {
+  text-decoration: none;
+  color: #fff;
+}
+
 .travel-nav {
   min-height: 10vh !important;
   background-color: var(--prussian-blue) !important;
+  border: 0px !important;
 }
 
 .travel-title {
@@ -20,7 +26,7 @@
 }
 
 .search-container {
-  width: 65%;
+  width: 50%;
   position: absolute;
   left: 50%;
   top: 45%;
@@ -31,4 +37,16 @@
 main {
   height: 87vh;
   margin: 1%;
+}
+
+.card-header {
+  background-color: var(--prussian-blue) !important;
+}
+.card-title {
+  color: var(--light-cornflower-blue) !important;
+}
+@media screen and (max-width: 480px) {
+  .search-container {
+    width: 80%;
+  }
 }

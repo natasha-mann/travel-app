@@ -5,42 +5,57 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link
+      rel="apple-touch-icon"
+      sizes="180x180"
+      href="./assets/favicon/apple-touch-icon.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="./assets/favicon/favicon-32x32.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="16x16"
+      href="./assets/favicon/favicon-16x16.png"
+    />
+    <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.css"
       integrity="sha512-8bHTC73gkZ7rZ7vpqUQThUDhqcNFyYi2xgDgPDHc+GXVGHXq+xPjynxIopALmOPqzo9JZj0k6OqqewdGO3EsrQ=="
       crossorigin="anonymous"
     />
-    <link rel="stylesheet" href="assets/css/index.css" />
+    <link rel="stylesheet" href="./assets/css/index.css" />
     <title>Travel Companion</title>
   </head>
   <body>
     <header>
-      <div
-        class="ui inverted three item menu stackable attached travel-nav"
-        id="navbar"
-      >
+      <div class="ui three item menu stackable attached travel-nav" id="navbar">
         <!-- Search bar component added dynamically in javascript on initial search-->
 
         <!-- App heading component -->
         <div class="item">
           <h2 class="ui header">
-            <img class="ui image" src="" />
+            <img
+              class="ui image"
+              src="./assets/images/travel-companion-logo.png"
+            />
             <div class="content travel-title">Travel Companion</div>
           </h2>
         </div>
 
         <!-- Navigate to favourites component -->
         <div class="item aligned right">
-          <button
-            class="ui inverted aligned right labeled icon button"
-            id="favouriteButton"
-          >
+          <button class="ui inverted labeled icon button" id="favouriteButton">
             <i class="right heart icon"></i>
-            Favourites
+            <a class="favouritesLink" href="favourites.html">Favourites</a>
           </button>
         </div>
       </div>
     </header>
+
     <main class="container" id="main-container">
       <div class="ui horizontal segments" id="places-container">
         <div class="ui segment">
@@ -104,6 +119,6 @@
       integrity="sha512-dqw6X88iGgZlTsONxZK9ePmJEFrmHwpuMrsUChjAw1mRUhUITE5QU9pkcSox+ynfLhL15Sv2al5A0LVyDCmtUw=="
       crossorigin="anonymous"
     ></script>
-    <script src="assets/js/index.js"></script>
+    <script src="./assets/js/index.js"></script>
   </body>
 </html>
