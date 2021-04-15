@@ -137,6 +137,14 @@ const getCountryCardData = async (restApiData) => {
   };
 };
 
+//function to build URL for REST countries to get data for country card
+const createPlacesCardUrl = (data, apiKey) =>
+  `https://api.opentripmap.com/0.1/en/places/geoname?apikey=${apiKey}&name=${data.capital}`;
+
+//function to build URL for REST countries to get data for country card
+const createListItemsUrl = (data, apiKey, offset, pageLength) =>
+  `https://api.opentripmap.com/0.1/en/places/radius?apikey=${apiKey}&radius=1000&limit=${pageLength}&offset=${offset}&lon=${data.lon}&lat=${data.lat}&rate=2&format=json`;
+
 // function to remove search container and append main sections
 const removeSearchAndAppendMain = async () => {
   //remove search container
@@ -208,6 +216,18 @@ const onSubmit = async (event) => {
     const restApiData = await fetchData(urlForCountryCard);
     if (Array.isArray(restApiData)) {
       const countryCardData = await getCountryCardData(restApiData);
+      const apiKey = "5ae2e3f221c38a28845f05b6fac16143ca6a7e70223b17f1cc98d3e7";
+      const urlForPlacesCard = createPlacesCardUrl(countryCardData, apiKey);
+      const placesData = await fetchData(urlForPlacesCard);
+      let offset = 0;
+      const pageLength = 5;
+      const urlForListItems = createListItemsUrl(
+        placesData,
+        apiKey,
+        offset,
+        pageLength
+      );
+      const listData = await fetchData(urlForListItems);
       if (event.target.id === "start-form") {
         // remove search container and append search results container
         removeSearchAndAppendMain();
