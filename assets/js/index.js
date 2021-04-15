@@ -57,6 +57,7 @@ const renderPlacesCard = (countryCardData, listItemData) => {
   <div class="ui fluid card">
     <div class="image" id ="places-image-container"></div>
     <div class="content" id ="places-content"></div>
+    <div id="places-link"> </div>
   </div>
 </div> `;
   $("#places-container").empty();
@@ -113,6 +114,10 @@ const renderPlacesPhoto = (selectedPlaceData) => {
   if (selectedPlaceData.description) {
     $("#places-content").text(`${selectedPlaceData.description}`);
   }
+  $("#places-link").empty();
+  $("#places-link").append(`
+  <a href="${selectedPlaceData.link}"<button class="ui button">Find out more!</button></a>
+  `);
 };
 
 //currency Input
