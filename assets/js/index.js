@@ -43,6 +43,38 @@ const renderCountryCard = (data) => {
   $("#country-card").append(countryCard);
 };
 
+const renderPlacesCard = () => {
+  const placesCard = `<div class="ui segment">
+  <div class="ui center aligned segment card-header">
+    <h3 class="card-title">Places to see in Madrid</h3>
+  </div>
+  <div class="ui celled selection list" id ="places-list">
+    <div class="item">
+      <div class="content">Description</div>
+    </div>
+    <div class="item">
+      <div class="content">Description</div>
+    </div>
+    <div class="item">
+      <div class="content">Description</div>
+    </div>
+    <div class="item">
+      <div class="content">Description</div>
+    </div>
+  </div>
+  <div class="ui fluid button" id ="places-button">Show more</div>
+</div>
+
+<div class="ui placeholder segment">
+  <div class="ui fluid card">
+    <div class="image" id ="places-image"></div>
+    <div class="content" id ="places-content"></div>
+  </div>
+</div> `;
+  $("#places-container").empty();
+  $("#places-container").append(placesCard);
+};
+
 //currency Input
 const renderCurrencyCard = () => {
   const currencyCard = `
@@ -182,6 +214,7 @@ const onSubmit = async (event) => {
       }
       renderCountryCard(countryCardData);
       renderWelcomeCard(countryCardData);
+      renderPlacesCard();
       renderCurrencyCard();
       renderHealthCard();
     }
