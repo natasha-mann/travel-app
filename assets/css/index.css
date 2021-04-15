@@ -46,7 +46,16 @@ main {
   color: var(--light-cornflower-blue) !important;
 }
 
-@media screen and (max-width: 480px) {
+#places-image-container {
+  height: 60% !important;
+  width: 60% !important;
+}
+
+.place-image {
+  height: 100% !important;
+}
+
+. @media screen and (max-width: 480px) {
   .search-container {
     width: 80%;
   }

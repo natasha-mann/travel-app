@@ -55,7 +55,7 @@ const renderPlacesCard = (countryCardData, listItemData) => {
 
 <div class="ui placeholder segment">
   <div class="ui fluid card">
-    <div class="image" id ="places-image"></div>
+    <div class="image" id ="places-image-container"></div>
     <div class="content" id ="places-content"></div>
   </div>
 </div> `;
@@ -83,9 +83,8 @@ const getPlacesApiData = async (event) => {
   const selectedPlaceXid = $(selectedPlace).data("xid");
   const xidUrl = `https://api.opentripmap.com/0.1/en/places/xid/${selectedPlaceXid}?apikey=${apiKey}`;
   const selectedPlaceApiData = await fetchData(xidUrl);
-  console.log(selectedPlaceApiData);
   const selectedPlaceData = getSelectedPlaceData(selectedPlaceApiData);
-  console.log(selectedPlaceData);
+  renderPlacesPhoto(selectedPlaceData);
 };
 
 // extract data needed from api call to use for photo and description on places card
@@ -101,6 +100,18 @@ const getSelectedPlaceData = (data) => {
       photo: data.preview.source,
       link: data.otm,
     };
+  }
+};
+
+// render photo and description of selected place on click of list item
+const renderPlacesPhoto = (selectedPlaceData) => {
+  $("#places-image-container").empty();
+  $("#places-content").empty();
+  $("#places-image-container").append(
+    `<img class="place-image" src="${selectedPlaceData.photo}"/>`
+  );
+  if (selectedPlaceData.description) {
+    $("#places-content").text(`${selectedPlaceData.description}`);
   }
 };
 
