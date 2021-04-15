@@ -137,6 +137,20 @@ const getCountryCardData = async (restApiData) => {
   };
 };
 
+// extract needed data from open trip map api call to construct places list
+const getListItemData = async (data) => {
+  return data.map(getEachData);
+};
+
+const getEachData = (item) => {
+  console.log(item);
+  return {
+    name: item.name,
+    type: item.kinds,
+    xid: item.xid,
+  };
+};
+
 //function to build URL for REST countries to get data for country card
 const createPlacesCardUrl = (data, apiKey) =>
   `https://api.opentripmap.com/0.1/en/places/geoname?apikey=${apiKey}&name=${data.capital}`;
@@ -228,6 +242,8 @@ const onSubmit = async (event) => {
         pageLength
       );
       const listData = await fetchData(urlForListItems);
+      const listItemData = getListItemData(listData);
+
       if (event.target.id === "start-form") {
         // remove search container and append search results container
         removeSearchAndAppendMain();
