@@ -22,25 +22,41 @@ const renderWelcomeCard = (data) => {
   $("#welcome-card").append(welcomeCard);
 };
 
+// local storage for fav
+const addFavourite = (event) => {
+  const flagUrl = $("#flag-image").attr("src");
+  const countryName = $("#country-name").text();
+
+  console.log(flagUrl, countryName);
+};
+
 // country card
 const renderCountryCard = (data) => {
   const countryCard = `<div class="ui centered card">
   <div class="image">
-    <img src="${data.flag}" />
+    <img src="${data.flag}" id="flag-image" />
   </div>
   <div class="content">
-    <a class="header">${data.name}</a>
+    <a class="header" id="country-name">${data.name}</a>
     <div class="description">Capital: ${data.capital}</div>
     <div class="description">Language: ${data.language}</div>
     <div class="description">Currency: ${data.currency}</div>
   </div>
-  <div class="ui bottom attached button">
+  <div class="ui bottom attached button" id="addFavBtn">
     <i class="heart icon"></i>
     Add to Favourites
   </div>
 </div>`;
   $("#country-card").empty();
   $("#country-card").append(countryCard);
+  $("#addFavBtn").click(addFavourite);
+};
+
+const initialiseLocalStorage = () => {
+  const localStorageData = localStorage.getItemI("favourites");
+  if (!localStorageData) {
+    localStorage.setItem("favourites", JSON.stringify([]));
+  }
 };
 
 const renderPlacesCard = () => {
