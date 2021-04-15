@@ -64,7 +64,7 @@ const renderPlacesCard = (countryCardData, listItemData) => {
 
   listItemData.forEach(buildListItem);
 
-  $("#places-list").on("click", getPlacesPhotoData);
+  $("#places-list").on("click", getPlacesApiData);
 };
 
 // build list item for places container
@@ -77,11 +77,31 @@ const buildListItem = (item) => {
 };
 
 // get data from api for places image and description
-const getPlacesPhotoData = async (event) => {
+const getPlacesApiData = async (event) => {
   const apiKey = "5ae2e3f221c38a28845f05b6fac16143ca6a7e70223b17f1cc98d3e7";
   const selectedPlace = event.target;
   const selectedPlaceXid = $(selectedPlace).data("xid");
   const xidUrl = `https://api.opentripmap.com/0.1/en/places/xid/${selectedPlaceXid}?apikey=${apiKey}`;
+  const selectedPlaceApiData = await fetchData(xidUrl);
+  console.log(selectedPlaceApiData);
+  const selectedPlaceData = getSelectedPlaceData(selectedPlaceApiData);
+  console.log(selectedPlaceData);
+};
+
+// extract data needed from api call to use for photo and description on places card
+const getSelectedPlaceData = (data) => {
+  if (data.wikipedia_extracts) {
+    return {
+      photo: data.preview.source,
+      link: data.otm,
+      description: data.wikipedia_extracts.text,
+    };
+  } else {
+    return {
+      photo: data.preview.source,
+      link: data.otm,
+    };
+  }
 };
 
 //currency Input
