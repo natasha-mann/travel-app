@@ -227,7 +227,7 @@ const onSubmit = async (event) => {
         offset,
         pageLength
       );
-      console.log(urlForListItems);
+      const listData = await fetchData(urlForListItems);
       if (event.target.id === "start-form") {
         // remove search container and append search results container
         removeSearchAndAppendMain();
