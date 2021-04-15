@@ -25,6 +25,10 @@
   color: var(--light-cornflower-blue);
 }
 
+.favourite-card {
+  margin-top: 10% !important;
+}
+
 main {
   height: 87vh;
   margin: 1%;
