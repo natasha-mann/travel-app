@@ -7,9 +7,7 @@ const getFromLocalStorage = () => {
   }
 };
 
-const renderFavCountryCard = (item) => {
-  console.log(item);
-};
+const renderFavCountryCard = (item) => {};
 
 const renderFavouritesCards = (favourites) => {
   if (favourites.length === 0) {
