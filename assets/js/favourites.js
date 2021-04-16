@@ -1,6 +1,10 @@
 const getFromLocalStorage = () => {
   const favourites = localStorage.getItem("favourites");
-  console.log(favourites);
+  if (favourites) {
+    return JSON.parse(favourites);
+  } else {
+    return [];
+  }
 };
 
 const onLoad = () => {
