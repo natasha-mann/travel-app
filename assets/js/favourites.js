@@ -27,7 +27,8 @@ const renderEmptyFavourites = () => {
     You don't have any favourite countries yet! 
   </div>
   <div class="inline">
-    <div class="ui primary button">Go back</div>
+    <div class="ui primary button">   
+    <a class="homeLink" href="index.html">Back to Search</a></div>
   </div>
 </div>`;
   $("#favourite-container").append(emptyFavourites);
