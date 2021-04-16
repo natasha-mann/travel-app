@@ -20,9 +20,22 @@ const renderFavCountryCard = (item) => {
   $("#favourite-container").append(favCountryCard);
 };
 
+const renderEmptyFavourites = () => {
+  const emptyFavourites = `<div class="ui placeholder center aligned segment empty-favourites">
+  <div class="ui icon header">
+    <i class="heart icon"></i>
+    You don't have any favourite countries yet! 
+  </div>
+  <div class="inline">
+    <div class="ui primary button">Go back</div>
+  </div>
+</div>`;
+  $("#favourite-container").append(emptyFavourites);
+};
+
 const renderFavouritesCards = (favourites) => {
   if (favourites.length === 0) {
-    console.log("oh no theres no countries");
+    renderEmptyFavourites();
   } else {
     favourites.forEach(renderFavCountryCard);
   }
