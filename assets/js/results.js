@@ -158,7 +158,7 @@ const getSelectedPlaceData = (data) => {
     description: getValueFromNestedObject(
       data,
       ["wikipedia_extracts", "text"],
-      "Click below to find out more!"
+      "Sorry we have no information!"
     ),
   };
 };
@@ -172,11 +172,9 @@ const renderPlacesPhoto = (selectedPlaceData) => {
   $("#places-image-container").append(
     `<img class="ui centered image place-image" src="${selectedPlaceData.photo}"/>`
   );
-  if (selectedPlaceData.description) {
-    $("#places-content").text(`${selectedPlaceData.description}`);
-  } else {
-    $("#places-content").text("Click below to find out more!");
-  }
+
+  $("#places-content").text(`${selectedPlaceData.description}`);
+
   if (selectedPlaceData.link) {
     $("#places-link").append(`
 <a href="${selectedPlaceData.link}"<button class="ui button">Learn more</button></a>
