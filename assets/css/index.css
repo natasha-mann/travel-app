@@ -42,12 +42,46 @@ main {
 .card-header {
   background-color: var(--prussian-blue) !important;
 }
+
 .card-title {
   color: var(--light-cornflower-blue) !important;
+}
+
+.places-aside {
+  min-width: 30% !important;
+}
+
+.places-main {
+  min-width: 70% !important;
+}
+
+.places-card {
+  height: 100% !important;
+}
+
+#places-image-container {
+  height: 40vh !important;
+  width: 100% !important;
+}
+
+.place-image {
+  height: 100% !important;
+  width: 40vh !important;
 }
 
 @media screen and (max-width: 480px) {
   .search-container {
     width: 80%;
+  }
+
+  #places-container {
+    flex-wrap: wrap !important;
+  }
+  .places-aside {
+    min-width: 100% !important;
+  }
+
+  .places-main {
+    min-width: 100% !important;
   }
 }
