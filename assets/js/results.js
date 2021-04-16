@@ -1,10 +1,24 @@
+// function to get search parameters for api calls
 const getUrlParams = () => {
   const urlParams = new URLSearchParams(window.location.search);
   const countryName = urlParams.get("country");
   return countryName;
 };
 
-// local storage for fav
+// function to check data nested in an object
+const getValueFromNestedObject = (
+  nestedObj = {},
+  tree = [],
+  defaultValue = ""
+) =>
+  Array.isArray(tree)
+    ? tree.reduce(
+        (obj, key) => (obj && obj[key] ? obj[key] : defaultValue),
+        nestedObj
+      )
+    : {};
+
+// add country data to local storage
 const addFavourite = () => {
   const flagUrl = $("#flag-image").attr("src");
   const countryName = $("#country-name").text();
@@ -16,19 +30,40 @@ const addFavourite = () => {
   localStorage.setItem("favourites", JSON.stringify(favCountryList));
 };
 
-//function to build URL for REST countries to get data for country card
+// async await - function to fetch data from api (taking in a url) and returns the data
+const fetchData = async (url) => {
+  try {
+    const response = await fetch(url);
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+/*
+ Functions to build the URLs 
+ Needed to fetch data from API
+ */
+
+// Build URL for REST countries to get data for country card
 const createCountryCardUrl = (countryName) =>
   `https://restcountries.eu/rest/v2/name/${countryName}`;
 
-//function to build URL for REST countries to get data for country card
+// Build URL for REST countries to get data for country card
 const createPlacesCardUrl = (data, apiKey) =>
   `https://api.opentripmap.com/0.1/en/places/geoname?apikey=${apiKey}&name=${data.capital}`;
 
-//function to build URL for REST countries to get data for country card
+// Build URL for REST countries to get data for country card
 const createListItemsUrl = (data, apiKey, offset, pageLength) =>
   `https://api.opentripmap.com/0.1/en/places/radius?apikey=${apiKey}&radius=1000&limit=${pageLength}&offset=${offset}&lon=${data.lon}&lat=${data.lat}&rate=2&format=json`;
 
-// extract needed data from REST countries api call to construct country card
+/*
+ Functions to extract the data we need
+ from the data returned from the API
+ */
+
+// Extract required data from REST countries api call to construct country card
 const getCountryCardData = async (restApiData) => {
   const data = restApiData[0];
   return {
@@ -40,6 +75,7 @@ const getCountryCardData = async (restApiData) => {
   };
 };
 
+// callback function to build list items
 const getEachData = (item) => {
   return {
     name: item.name,
@@ -48,10 +84,33 @@ const getEachData = (item) => {
   };
 };
 
-// extract needed data from open trip map api call to construct places list
+// Extract required data from open trip map api call to construct places list
 const getListItemData = async (data) => {
   return data.map(getEachData);
 };
+
+// extract data needed from api call to use for photo and description on places card
+const getSelectedPlaceData = (data) => {
+  return {
+    photo: getValueFromNestedObject(
+      data,
+      ["preview", "source"],
+      "https://www.aepint.nl/wp-content/uploads/2014/12/No_image_available.jpg"
+    ),
+    link: data.otm,
+    description: getValueFromNestedObject(
+      data,
+      ["wikipedia_extracts", "text"],
+      "Sorry we have no information!"
+    ),
+  };
+};
+
+/*
+ Functions to render individual
+ component cards dynamically 
+ using API data
+ */
 
 // welcome card
 const renderWelcomeCard = (data) => {
@@ -66,7 +125,7 @@ const renderWelcomeCard = (data) => {
   $("#welcome-card").append(welcomeCard);
 };
 
-// country card
+// Country card
 const renderCountryCard = (data) => {
   const countryCard = `<div class="ui centered card">
   <div class="image">
@@ -88,6 +147,7 @@ const renderCountryCard = (data) => {
   $("#addFavBtn").click(addFavourite);
 };
 
+// Places card
 const renderPlacesCard = (countryCardData, listItemData, apiKey) => {
   const placesCard = `<div class="ui segment places-aside">
   <div class="ui center aligned segment card-header">
@@ -113,7 +173,7 @@ const renderPlacesCard = (countryCardData, listItemData, apiKey) => {
   $("#places-list").on("click", { apiKey }, onListClick);
 };
 
-// build list item for places container
+// List items for places container
 const buildListItem = (item) => {
   $("#places-list").append(`
   <div class="item">
@@ -122,48 +182,7 @@ const buildListItem = (item) => {
   `);
 };
 
-// on click of list item get data from api for places image and description and render
-const onListClick = async (event) => {
-  const apiKey = event.data.apiKey;
-  const selectedPlace = event.target;
-  const selectedPlaceXid = $(selectedPlace).data("xid");
-  const xidUrl = `https://api.opentripmap.com/0.1/en/places/xid/${selectedPlaceXid}?apikey=${apiKey}`;
-  const selectedPlaceApiData = await fetchData(xidUrl);
-  const selectedPlaceData = getSelectedPlaceData(selectedPlaceApiData);
-  renderPlacesPhoto(selectedPlaceData);
-};
-
-// extract data needed from api call to use for photo and description on places card
-
-const getValueFromNestedObject = (
-  nestedObj = {},
-  tree = [],
-  defaultValue = ""
-) =>
-  Array.isArray(tree)
-    ? tree.reduce(
-        (obj, key) => (obj && obj[key] ? obj[key] : defaultValue),
-        nestedObj
-      )
-    : {};
-
-const getSelectedPlaceData = (data) => {
-  return {
-    photo: getValueFromNestedObject(
-      data,
-      ["preview", "source"],
-      "https://www.aepint.nl/wp-content/uploads/2014/12/No_image_available.jpg"
-    ),
-    link: data.otm,
-    description: getValueFromNestedObject(
-      data,
-      ["wikipedia_extracts", "text"],
-      "Sorry we have no information!"
-    ),
-  };
-};
-
-// render photo and description of selected place on click of list item
+// Render photo and description of selected place on click of list item
 const renderPlacesPhoto = (selectedPlaceData) => {
   $("#places-image-container").empty();
   $("#places-content").empty();
@@ -182,7 +201,7 @@ const renderPlacesPhoto = (selectedPlaceData) => {
   }
 };
 
-//currency Input
+// Currency card
 const renderCurrencyCard = () => {
   const currencyCard = `
 <div class="ui segments">
@@ -212,7 +231,7 @@ const renderCurrencyCard = () => {
   $("#currency-container").append(currencyCard);
 };
 
-//health and vaccines
+// Health and vaccines card
 const renderHealthCard = () => {
   const healthCard = `<div class="ui segments">
   <div class="ui segment card-header">
@@ -228,17 +247,7 @@ const renderHealthCard = () => {
   $("#health-container").append(healthCard);
 };
 
-// async await - function to fetch data from api (taking in a url) and returns the data
-const fetchData = async (url) => {
-  try {
-    const response = await fetch(url);
-    const data = await response.json();
-    return data;
-  } catch (error) {
-    console.log(error);
-  }
-};
-
+// main function to render all individual components
 const renderAllData = async (countryName) => {
   // create URL + fetch data for country card
   const urlForCountryCard = createCountryCardUrl(countryName);
@@ -269,6 +278,22 @@ const renderAllData = async (countryName) => {
   }
 };
 
+/*
+ Main functions for events happening
+ on load, on click or on submit
+ */
+
+// on click of list item get data from api for places image and description and render
+const onListClick = async (event) => {
+  const apiKey = event.data.apiKey;
+  const selectedPlace = event.target;
+  const selectedPlaceXid = $(selectedPlace).data("xid");
+  const xidUrl = `https://api.opentripmap.com/0.1/en/places/xid/${selectedPlaceXid}?apikey=${apiKey}`;
+  const selectedPlaceApiData = await fetchData(xidUrl);
+  const selectedPlaceData = getSelectedPlaceData(selectedPlaceApiData);
+  renderPlacesPhoto(selectedPlaceData);
+};
+
 // function called on submit of search form
 const onSubmit = (event) => {
   event.preventDefault();
@@ -280,6 +305,7 @@ const onSubmit = (event) => {
   }
 };
 
+// function called on load of page
 const onReady = () => {
   const countryName = getUrlParams();
   console.log(countryName);
