@@ -10,22 +10,15 @@ const fetchData = async (url) => {
 };
 
 // local storage for fav
-const addFavourite = (event) => {
+const addFavourite = () => {
   const flagUrl = $("#flag-image").attr("src");
   const countryName = $("#country-name").text();
 
-  let countryObj = { flag: flagUrl, country: countryName };
-  let favCountryList = [];
+  const countryObj = { flag: flagUrl, country: countryName };
 
-  if (localStorage.favList) {
-    favCountryList = JSON.parse(localStorage.favList);
-    for (let i = 0; i < favCountryList.length; i++) {
-      let flagUrl = favCountryList[i].flag;
-      let countryName = favCountryList[i].country;
-    }
-  }
+  const favCountryList = JSON.parse(localStorage.getItem("favourites"));
   favCountryList.push(countryObj);
-  localStorage.favList = JSON.stringify(favCountryList);
+  localStorage.setItem("favourites", JSON.stringify(favCountryList));
 };
 
 const initialiseLocalStorage = () => {
@@ -228,6 +221,8 @@ const onSubmit = async (event) => {
   event.preventDefault();
 
   const countryName = $("#search-bar").val();
+
+  initialiseLocalStorage();
 
   if (countryName) {
     // create URL + fetch data for country card
