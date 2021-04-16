@@ -9,6 +9,32 @@ const fetchData = async (url) => {
   }
 };
 
+// local storage for fav
+const addFavourite = (event) => {
+  const flagUrl = $("#flag-image").attr("src");
+  const countryName = $("#country-name").text();
+
+  let countryObj = { flag: flagUrl, country: countryName };
+  let favCountryList = [];
+
+  if (localStorage.favList) {
+    favCountryList = JSON.parse(localStorage.favList);
+    for (let i = 0; i < favCountryList.length; i++) {
+      let flagUrl = favCountryList[i].flag;
+      let countryName = favCountryList[i].country;
+    }
+  }
+  favCountryList.push(countryObj);
+  localStorage.favList = JSON.stringify(favCountryList);
+};
+
+const initialiseLocalStorage = () => {
+  const localStorageData = localStorage.getItem("favourites");
+  if (!localStorageData) {
+    localStorage.setItem("favourites", JSON.stringify([]));
+  }
+};
+
 // welcome card
 const renderWelcomeCard = (data) => {
   const welcomeCard = `<div class="ui message">
@@ -20,14 +46,6 @@ const renderWelcomeCard = (data) => {
 </div>`;
   $("#welcome-card").empty();
   $("#welcome-card").append(welcomeCard);
-};
-
-// local storage for fav
-const addFavourite = (event) => {
-  const flagUrl = $("#flag-image").attr("src");
-  const countryName = $("#country-name").text();
-
-  console.log(flagUrl, countryName);
 };
 
 // country card
@@ -50,13 +68,6 @@ const renderCountryCard = (data) => {
   $("#country-card").empty();
   $("#country-card").append(countryCard);
   $("#addFavBtn").click(addFavourite);
-};
-
-const initialiseLocalStorage = () => {
-  const localStorageData = localStorage.getItemI("favourites");
-  if (!localStorageData) {
-    localStorage.setItem("favourites", JSON.stringify([]));
-  }
 };
 
 const renderPlacesCard = () => {
