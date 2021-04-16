@@ -43,8 +43,8 @@ const renderCountryCard = (data) => {
   $("#country-card").append(countryCard);
 };
 
-const renderPlacesCard = (countryCardData, listItemData) => {
-  const placesCard = `<div class="ui segment">
+const renderPlacesCard = (countryCardData, listItemData, apiKey) => {
+  const placesCard = `<div class="ui segment places-aside">
   <div class="ui center aligned segment card-header">
     <h3 class="card-title">Places to see in ${countryCardData.capital}</h3>
   </div>
@@ -53,16 +53,19 @@ const renderPlacesCard = (countryCardData, listItemData) => {
   <div class="ui fluid button" id ="places-button">Show more</div>
 </div>
 
-<div class="ui placeholder segment">
-  <div class="ui fluid card">
-    <div class="image" id ="places-image"></div>
-    <div class="content" id ="places-content"></div>
+<div class="ui placeholder segment places-main">
+  <div class="ui fluid card places-card">
+    <div class="image" id ="places-image-container"></div>
+    <div class="center aligned content" id ="places-content"></div>
+    <div id="places-link"> </div>
   </div>
 </div> `;
   $("#places-container").empty();
   $("#places-container").append(placesCard);
 
   listItemData.forEach(buildListItem);
+
+  $("#places-list").on("click", { apiKey }, onListClick);
 };
 
 // build list item for places container
@@ -71,6 +74,53 @@ const buildListItem = (item) => {
   <div class="item">
     <div class="content" data-xid="${item.xid}">${item.name}</div>
   </div>
+  `);
+};
+
+// on click of list item get data from api for places image and description and render
+const onListClick = async (event) => {
+  const apiKey = event.data.apiKey;
+  const selectedPlace = event.target;
+  const selectedPlaceXid = $(selectedPlace).data("xid");
+  const xidUrl = `https://api.opentripmap.com/0.1/en/places/xid/${selectedPlaceXid}?apikey=${apiKey}`;
+  const selectedPlaceApiData = await fetchData(xidUrl);
+  const selectedPlaceData = getSelectedPlaceData(selectedPlaceApiData);
+  renderPlacesPhoto(selectedPlaceData);
+};
+
+// extract data needed from api call to use for photo and description on places card
+const getSelectedPlaceData = (data) => {
+  if (data.wikipedia_extracts) {
+    return {
+      photo: data.preview.source,
+      link: data.otm,
+      description: data.wikipedia_extracts.text,
+    };
+  } else {
+    return {
+      photo: data.preview.source,
+      link: data.otm,
+    };
+  }
+};
+
+// render photo and description of selected place on click of list item
+const renderPlacesPhoto = (selectedPlaceData) => {
+  $("#places-image-container").empty();
+  $("#places-content").empty();
+  $("#places-link").empty();
+
+  $("#places-image-container").append(
+    `<img class="ui centered image place-image" src="${selectedPlaceData.photo}"/>`
+  );
+  if (selectedPlaceData.description) {
+    $("#places-content").text(`${selectedPlaceData.description}`);
+  } else {
+    $("#places-content").text("Click below to find out more!");
+  }
+
+  $("#places-link").append(`
+  <a href="${selectedPlaceData.link}"<button class="ui button">Learn more</button></a>
   `);
 };
 
@@ -226,6 +276,8 @@ const onSubmit = async (event) => {
     // create URL + fetch data for country card
     const urlForCountryCard = createCountryCardUrl(countryName);
     const restApiData = await fetchData(urlForCountryCard);
+
+    // if the data from API exists as an array
     if (Array.isArray(restApiData)) {
       const countryCardData = await getCountryCardData(restApiData);
       const apiKey = "5ae2e3f221c38a28845f05b6fac16143ca6a7e70223b17f1cc98d3e7";
@@ -248,7 +300,7 @@ const onSubmit = async (event) => {
       }
       renderCountryCard(countryCardData);
       renderWelcomeCard(countryCardData);
-      renderPlacesCard(countryCardData, listItemData);
+      renderPlacesCard(countryCardData, listItemData, apiKey);
       renderCurrencyCard();
       renderHealthCard();
     }
