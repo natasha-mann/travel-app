@@ -134,19 +134,33 @@ const onListClick = async (event) => {
 };
 
 // extract data needed from api call to use for photo and description on places card
+
+const getValueFromNestedObject = (
+  nestedObj = {},
+  tree = [],
+  defaultValue = ""
+) =>
+  Array.isArray(tree)
+    ? tree.reduce(
+        (obj, key) => (obj && obj[key] ? obj[key] : defaultValue),
+        nestedObj
+      )
+    : {};
+
 const getSelectedPlaceData = (data) => {
-  if (data.wikipedia_extracts) {
-    return {
-      photo: data.preview.source,
-      link: data.otm,
-      description: data.wikipedia_extracts.text,
-    };
-  } else {
-    return {
-      photo: data.preview.source,
-      link: data.otm,
-    };
-  }
+  return {
+    photo: getValueFromNestedObject(
+      data,
+      ["preview", "source"],
+      "https://www.aepint.nl/wp-content/uploads/2014/12/No_image_available.jpg"
+    ),
+    link: data.otm,
+    description: getValueFromNestedObject(
+      data,
+      ["wikipedia_extracts", "text"],
+      "Click below to find out more!"
+    ),
+  };
 };
 
 // render photo and description of selected place on click of list item
@@ -163,10 +177,11 @@ const renderPlacesPhoto = (selectedPlaceData) => {
   } else {
     $("#places-content").text("Click below to find out more!");
   }
-
-  $("#places-link").append(`
-  <a href="${selectedPlaceData.link}"<button class="ui button">Learn more</button></a>
-  `);
+  if (selectedPlaceData.link) {
+    $("#places-link").append(`
+<a href="${selectedPlaceData.link}"<button class="ui button">Learn more</button></a>
+`);
+  }
 };
 
 //currency Input
