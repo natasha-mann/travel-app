@@ -7,7 +7,18 @@ const getFromLocalStorage = () => {
   }
 };
 
-const renderFavCountryCard = (item) => {};
+const renderFavCountryCard = (item) => {
+  const favCountryCard = `<div class="ui centered card">
+  <div class="image">
+    <img src= "${item.flag}"/>
+  </div>
+  <div class="content ui grid col-4 center aligned">
+    <div class="header">${item.country}</div>
+  </div>
+  <div class="ui bottom attached button">Remove from Favourites</div>
+</div>`;
+  $("#favourite-container").append(favCountryCard);
+};
 
 const renderFavouritesCards = (favourites) => {
   if (favourites.length === 0) {
