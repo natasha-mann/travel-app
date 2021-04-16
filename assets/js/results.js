@@ -262,8 +262,6 @@ const onSubmit = (event) => {
 
   const countryName = $("#search-bar").val();
 
-  initialiseLocalStorage();
-
   if (countryName) {
     renderAllData(countryName);
   }
