@@ -57,6 +57,11 @@ const getListItemData = async (data) => {
   return data.map(getEachData);
 };
 
+// extract needed data from Travel Briefing Api call to construct Health and Vaccines and Currency Card
+const getTravelBriefingData = async () => {
+  console.log("hello");
+};
+
 // welcome card
 const renderWelcomeCard = (data) => {
   const welcomeCard = `<div class="ui message">
@@ -266,9 +271,10 @@ const renderAllData = async (countryName) => {
     const listItemData = await getListItemData(listData);
 
     const travelBriefingUrl = createTravelBriefingUrl(countryName);
-    console.log(travelBriefingUrl);
-    const travelBriefingData = await fetchData(travelBriefingUrl);
-    console.log(travelBriefingData);
+    const travelBriefingApiData = await fetchData(travelBriefingUrl);
+    const travelBriefingData = await getTravelBriefingData(
+      travelBriefingApiData
+    );
 
     renderCountryCard(countryCardData);
     renderWelcomeCard(countryCardData);
