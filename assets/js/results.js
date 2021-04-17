@@ -225,7 +225,7 @@ const renderCurrencyCard = () => {
 };
 
 //health and vaccines
-const renderHealthCard = () => {
+const renderHealthCard = (data) => {
   const healthCard = `<div class="ui segments">
   <div class="ui segment card-header">
     <div class="header center aligned card-title">
@@ -233,7 +233,9 @@ const renderHealthCard = () => {
     </div>
   </div>
   <div class="ui segment">
-    <p>some text here</p>
+  <div class="ui middle aligned selection list" id= "vaccines-list">
+  
+  </div>
   </div>
 </div>`;
   $("#health-container").empty();
@@ -283,7 +285,7 @@ const renderAllData = async (countryName) => {
     renderWelcomeCard(countryCardData);
     renderPlacesCard(countryCardData, listItemData, apiKey);
     renderCurrencyCard();
-    renderHealthCard();
+    renderHealthCard(travelBriefingData);
   }
 };
 
