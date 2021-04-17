@@ -199,7 +199,7 @@ const renderCurrencyCard = () => {
   const currencyCard = `
 <div class="ui segments">
   <div class="ui segment card-header">
-    <div class="header center aligned card-title">Currency Converter</div>
+    <h3 class="ui header center aligned card-title">Currency Converter</h3>
   </div>
   <div class="ui segment">
     <div class="ui form">
@@ -225,12 +225,12 @@ const renderCurrencyCard = () => {
 };
 
 //health and vaccines
-const renderHealthCard = (data) => {
+const renderHealthCard = (countryCardData, travelBriefingData) => {
   const healthCard = `<div class="ui segments">
   <div class="ui segment card-header">
-    <div class="header center aligned card-title">
-      Health & Vaccines for spain
-    </div>
+    <h3 class="ui header center aligned card-title">
+      Health & Vaccines for ${countryCardData.name}
+    </h3>
   </div>
   <div class="ui segment">
   <div class="ui middle aligned selection list" id= "vaccines-list">
@@ -238,10 +238,21 @@ const renderHealthCard = (data) => {
   </div>
   </div>
 </div>`;
+
   $("#health-container").empty();
+  const vaccines = travelBriefingData.vaccines;
   $("#health-container").append(healthCard);
+  vaccines.forEach(addVaccineListItem);
 };
 
+const addVaccineListItem = (item) => {
+  $("#vaccines-list").append(`<a class="item">
+  <i class="medkit icon"></i>
+  <div class="content">
+    <div class="header">${item.name}</div>
+  </div>
+</a>`);
+};
 // async await - function to fetch data from api (taking in a url) and returns the data
 const fetchData = async (url) => {
   try {
@@ -285,7 +296,7 @@ const renderAllData = async (countryName) => {
     renderWelcomeCard(countryCardData);
     renderPlacesCard(countryCardData, listItemData, apiKey);
     renderCurrencyCard();
-    renderHealthCard(travelBriefingData);
+    renderHealthCard(countryCardData, travelBriefingData);
   }
 };
 
