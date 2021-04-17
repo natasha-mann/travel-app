@@ -1,3 +1,4 @@
+let apiVaccines = null;
 const getUrlParams = () => {
   const urlParams = new URLSearchParams(window.location.search);
   const countryName = urlParams.get("country");
@@ -234,7 +235,6 @@ const renderHealthCard = (countryCardData, travelBriefingData) => {
   </div>
   <div class="ui segment">
   <div class="ui middle aligned selection list" id= "vaccines-list">
-  
   </div>
   </div>
 </div>`;
@@ -245,14 +245,38 @@ const renderHealthCard = (countryCardData, travelBriefingData) => {
   vaccines.forEach(addVaccineListItem);
 };
 
+const renderModal = (event) => {
+  if (apiVaccines) {
+    const vaccine = event.currentTarget;
+    const vaccineName = $(vaccine).data("name");
+    const vaccineData = apiVaccines;
+    const modalVaccineData = vaccineData.find(
+      (vaccine) => vaccine.name === vaccineName
+    );
+    const modal = `<div class="ui modal">
+  <div class="header">${modalVaccineData.name}</div>
+  <div class="content">
+    <p>${modalVaccineData.message}</p>
+  </div>
+  <div class="actions">
+    <div class="ui button">Close</div>
+  </div>
+</div>`;
+  }
+};
+
 const addVaccineListItem = (item) => {
-  $("#vaccines-list").append(`<a class="item">
+  $("#vaccines-list")
+    .append(`<a class="item" id= "vaccine-name" data-name ="${item.name}">
   <i class="medkit icon"></i>
   <div class="content">
     <div class="header">${item.name}</div>
   </div>
 </a>`);
+
+  $(`#vaccine-name[data-name="${item.name}"]`).click(renderModal);
 };
+
 // async await - function to fetch data from api (taking in a url) and returns the data
 const fetchData = async (url) => {
   try {
@@ -291,6 +315,7 @@ const renderAllData = async (countryName) => {
     const travelBriefingData = await getTravelBriefingData(
       travelBriefingApiData
     );
+    apiVaccines = travelBriefingData.vaccines;
 
     renderCountryCard(countryCardData);
     renderWelcomeCard(countryCardData);
@@ -313,7 +338,6 @@ const onSubmit = (event) => {
 
 const onReady = () => {
   const countryName = getUrlParams();
-  console.log(countryName);
 
   if (countryName) {
     renderAllData(countryName);
