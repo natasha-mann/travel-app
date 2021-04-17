@@ -28,6 +28,10 @@ const createPlacesCardUrl = (data, apiKey) =>
 const createListItemsUrl = (data, apiKey, offset, pageLength) =>
   `https://api.opentripmap.com/0.1/en/places/radius?apikey=${apiKey}&radius=1000&limit=${pageLength}&offset=${offset}&lon=${data.lon}&lat=${data.lat}&rate=2&format=json`;
 
+//function to build URL for travel briefing Api to get data for Health and Vaccines and Currency Card
+const createTravelBriefingUrl = (countryName) =>
+  `https://travelbriefing.org/${countryName}?format=json`;
+
 // extract needed data from REST countries api call to construct country card
 const getCountryCardData = async (restApiData) => {
   const data = restApiData[0];
@@ -51,6 +55,14 @@ const getEachData = (item) => {
 // extract needed data from open trip map api call to construct places list
 const getListItemData = async (data) => {
   return data.map(getEachData);
+};
+
+// extract needed data from Travel Briefing Api call to construct Health and Vaccines and Currency Card
+const getTravelBriefingData = async (travelBriefingApiData) => {
+  return {
+    vaccines: travelBriefingApiData.vaccinations,
+    currency: travelBriefingApiData.currency,
+  };
 };
 
 // welcome card
@@ -260,6 +272,12 @@ const renderAllData = async (countryName) => {
     );
     const listData = await fetchData(urlForListItems);
     const listItemData = await getListItemData(listData);
+
+    const travelBriefingUrl = createTravelBriefingUrl(countryName);
+    const travelBriefingApiData = await fetchData(travelBriefingUrl);
+    const travelBriefingData = await getTravelBriefingData(
+      travelBriefingApiData
+    );
 
     renderCountryCard(countryCardData);
     renderWelcomeCard(countryCardData);
