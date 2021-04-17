@@ -253,17 +253,28 @@ const renderModal = (event) => {
     const modalVaccineData = vaccineData.find(
       (vaccine) => vaccine.name === vaccineName
     );
-    const modal = $(`<div class="ui active mini-modal" id ="modal">
-  <div class="header">${modalVaccineData.name}</div>
-  <div class="content">
-    <p>${modalVaccineData.message}</p>
-  </div>
-  <div class="actions">
-    <div class="ui button">Close</div>
-  </div>
-</div>`);
-    $("#main-container").append(modal);
-    $("#modal").modal("show");
+    console.log(modalVaccineData.name);
+    const modal = $(`<div class="ui modal">
+    <i class="close icon"></i>
+    <div class="header">
+    Travel Information
+    </div>
+    <div class="image content">
+      <div class="ui medium image">
+        <img src="/assets/images/hospital.png">
+      </div>
+      <div class="description">
+        <div class="ui header">${modalVaccineData.name}</div>
+        <p>${modalVaccineData.message}</p>
+      </div>
+    </div>
+    <div class="actions">
+      <div class="ui teal deny button">
+        Close
+      </div>
+    </div>
+  </div>`);
+    $(modal).modal("show");
   }
 };
 
