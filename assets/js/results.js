@@ -253,7 +253,7 @@ const renderModal = (event) => {
     const modalVaccineData = vaccineData.find(
       (vaccine) => vaccine.name === vaccineName
     );
-    const modal = `<div class="ui modal">
+    const modal = `<div class="ui active mini-modal" id ="modal">
   <div class="header">${modalVaccineData.name}</div>
   <div class="content">
     <p>${modalVaccineData.message}</p>
@@ -262,6 +262,8 @@ const renderModal = (event) => {
     <div class="ui button">Close</div>
   </div>
 </div>`;
+    $("#main-container").append(modal);
+    $("#modal").modal("show");
   }
 };
 
