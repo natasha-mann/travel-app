@@ -278,7 +278,6 @@ const renderAllData = async (countryName) => {
     const travelBriefingData = await getTravelBriefingData(
       travelBriefingApiData
     );
-    console.log(travelBriefingData);
 
     renderCountryCard(countryCardData);
     renderWelcomeCard(countryCardData);
