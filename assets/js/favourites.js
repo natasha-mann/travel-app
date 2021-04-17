@@ -32,22 +32,33 @@ const renderFavouritesCards = (favourites) => {
 };
 
 const renderFavCountryCard = (item) => {
-  const favCountryCard = `<div class="ui centered card">
-  <div class="image">
+  const favCountryCard = `<div class="ui centered card" id="research" data-country="${item.country}">
+  <div class="image" >
     <img src= "${item.flag}"/>
   </div>
-  <div class="content ui grid col-4 center aligned">
+  <div class="content ui grid col-4 center aligned" >
     <div class="header">${item.country}</div>
   </div>
-  <div class="ui bottom attached button" data-country="${item.country}" name="removeFavourite">Remove from Favourites</div>
+  <div class="ui bottom attached button" name="removeFavourite">Remove from Favourites</div>
 </div>`;
   $("#favourite-container").append(favCountryCard);
   $('div[name="removeFavourite"]').click(removeFromFavourites);
+  $(document).on("click", "#research", researchCountry);
+};
+
+const researchCountry = (event) => {
+  const target = $(event.target);
+  if (target.is("img")) {
+    const parent = $(target).closest("#research");
+    const country = parent.data("country");
+    window.location.href = `/results.html?country=${country}`;
+  }
 };
 
 const removeFromFavourites = (event) => {
   const target = $(event.target);
-  const country = target.data("country");
+  const parent = $(target).closest("#research");
+  const country = parent.data("country");
   const favourites = JSON.parse(localStorage.getItem("favourites"));
   const callback = (each) => {
     if (each.country === country) {
