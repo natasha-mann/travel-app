@@ -105,6 +105,29 @@ const renderCountryCard = (data) => {
   }
 };
 
+const removeFavourites = () => {
+  const countryName = $("#country-name").text();
+  const favourites = JSON.parse(localStorage.getItem("favourites"));
+
+  const filteredFavourites = favourites.filter(
+    (item) => item.country !== countryName
+  );
+  localStorage.setItem("favourites", JSON.stringify(filteredFavourites));
+
+  const newFavCountryList = JSON.parse(localStorage.getItem("favourites"));
+  if (
+    newFavCountryList.some((item) => item.country !== countryName) ||
+    newFavCountryList.length === 0
+  ) {
+    $("#removeFavBtn")
+      .text("Add to Favourites")
+      .removeClass("red")
+      .addClass("teal")
+      .attr("id", "addFavBtn");
+    $("#addFavBtn").click(addFavourite);
+  }
+};
+
 // local storage for fav
 const addFavourite = () => {
   const flagUrl = $("#flag-image").attr("src");
