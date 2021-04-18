@@ -91,14 +91,30 @@ const renderCountryCard = (data) => {
     <div class="description">Language: ${data.language}</div>
     <div class="description">Currency: ${data.currency}</div>
   </div>
-  <div class="ui bottom attached button" id="addFavBtn">
+  <div class="ui bottom attached button teal" id="addFavBtn">
     <i class="heart icon"></i>
     Add to Favourites
   </div>
 </div>`;
   $("#country-card").empty();
   $("#country-card").append(countryCard);
-  $("#addFavBtn").click(addFavourite);
+
+  const favCountryList = JSON.parse(localStorage.getItem("favourites"));
+
+  if (favCountryList.some((item) => item.country === data.name)) {
+    $("#addFavBtn")
+      .text("Remove From Favourites")
+      .removeClass("teal")
+      .addClass("red")
+      .attr("id", "removeFavBtn");
+    $("#removeFavBtn").click(removeFavourites);
+  } else {
+    $("#addFavBtn")
+      .text("Add to Favourites")
+      .removeClass("red")
+      .addClass("teal");
+    $("#addFavBtn").click(addFavourite);
+  }
 };
 
 const renderPlacesCard = (countryCardData, listItemData, apiKey) => {
