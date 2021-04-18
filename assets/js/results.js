@@ -195,7 +195,8 @@ const renderPlacesCard = (
     );
     const newListData = await fetchData(newListUrl);
     const newListItemData = await getListItemData(newListData);
-    console.log(newListItemData);
+    $("#places-list").empty();
+    newListItemData.forEach(buildListItem);
   };
 
   $("#places-button").on("click", showMorePlaces);
