@@ -19,7 +19,7 @@ const createPlacesCardUrl = (data, apiKey) =>
 
 //function to build URL for REST countries to get data for country card
 const createListItemsUrl = (data, apiKey, offset, pageLength) =>
-  `https://api.opentripmap.com/0.1/en/places/radius?apikey=${apiKey}&radius=1000&limit=${pageLength}&offset=${offset}&lon=${data.lon}&lat=${data.lat}&rate=2&format=json`;
+  `https://api.opentripmap.com/0.1/en/places/radius?apikey=${apiKey}&radius=10000&limit=${pageLength}&offset=${offset}&lon=${data.lon}&lat=${data.lat}&rate=2&format=json`;
 
 //function to build URL for travel briefing Api to get data for Health and Vaccines and Currency Card
 const createTravelBriefingUrl = (countryName) =>
