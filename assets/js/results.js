@@ -1,3 +1,4 @@
+let apiVaccines = null;
 const getUrlParams = () => {
   const urlParams = new URLSearchParams(window.location.search);
   const countryName = urlParams.get("country");
@@ -199,7 +200,7 @@ const renderCurrencyCard = () => {
   const currencyCard = `
 <div class="ui segments">
   <div class="ui segment card-header">
-    <div class="header center aligned card-title">Currency Converter</div>
+    <h3 class="ui header center aligned card-title">Currency Converter</h3>
   </div>
   <div class="ui segment">
     <div class="ui form">
@@ -225,19 +226,68 @@ const renderCurrencyCard = () => {
 };
 
 //health and vaccines
-const renderHealthCard = () => {
+const renderHealthCard = (countryCardData, travelBriefingData) => {
   const healthCard = `<div class="ui segments">
   <div class="ui segment card-header">
-    <div class="header center aligned card-title">
-      Health & Vaccines for spain
-    </div>
+    <h3 class="ui header center aligned card-title">
+      Health & Vaccines for ${countryCardData.name}
+    </h3>
   </div>
   <div class="ui segment">
-    <p>some text here</p>
+  <div class="ui middle aligned selection list" id= "vaccines-list">
+  </div>
   </div>
 </div>`;
+
   $("#health-container").empty();
+  const vaccines = travelBriefingData.vaccines;
   $("#health-container").append(healthCard);
+  vaccines.forEach(addVaccineListItem);
+};
+
+const renderModal = (event) => {
+  if (apiVaccines) {
+    const vaccine = event.currentTarget;
+    const vaccineName = $(vaccine).data("name");
+    const vaccineData = apiVaccines;
+    const modalVaccineData = vaccineData.find(
+      (vaccine) => vaccine.name === vaccineName
+    );
+    console.log(modalVaccineData.name);
+    const modal = $(`<div class="ui modal">
+    <i class="close icon"></i>
+    <div class="header">
+    Travel Information
+    </div>
+    <div class="image content">
+      <div class="ui medium image">
+        <img src="/assets/images/hospital.png">
+      </div>
+      <div class="description">
+        <div class="ui header">${modalVaccineData.name}</div>
+        <p>${modalVaccineData.message}</p>
+      </div>
+    </div>
+    <div class="actions">
+      <div class="ui teal deny button">
+        Close
+      </div>
+    </div>
+  </div>`);
+    $(modal).modal("show");
+  }
+};
+
+const addVaccineListItem = (item) => {
+  $("#vaccines-list")
+    .append(`<a class="item" id= "vaccine-name" data-name ="${item.name}">
+  <i class="medkit icon"></i>
+  <div class="content">
+    <div class="header">${item.name}</div>
+  </div>
+</a>`);
+
+  $(`#vaccine-name[data-name="${item.name}"]`).click(renderModal);
 };
 
 // async await - function to fetch data from api (taking in a url) and returns the data
@@ -278,12 +328,13 @@ const renderAllData = async (countryName) => {
     const travelBriefingData = await getTravelBriefingData(
       travelBriefingApiData
     );
+    apiVaccines = travelBriefingData.vaccines;
 
     renderCountryCard(countryCardData);
     renderWelcomeCard(countryCardData);
     renderPlacesCard(countryCardData, listItemData, apiKey);
     renderCurrencyCard();
-    renderHealthCard();
+    renderHealthCard(countryCardData, travelBriefingData);
   }
 };
 
@@ -300,7 +351,6 @@ const onSubmit = (event) => {
 
 const onReady = () => {
   const countryName = getUrlParams();
-  console.log(countryName);
 
   if (countryName) {
     renderAllData(countryName);
