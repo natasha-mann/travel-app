@@ -5,18 +5,6 @@ const getUrlParams = () => {
   return countryName;
 };
 
-// local storage for fav
-const addFavourite = () => {
-  const flagUrl = $("#flag-image").attr("src");
-  const countryName = $("#country-name").text();
-
-  const countryObj = { flag: flagUrl, country: countryName };
-
-  const favCountryList = JSON.parse(localStorage.getItem("favourites"));
-  favCountryList.push(countryObj);
-  localStorage.setItem("favourites", JSON.stringify(favCountryList));
-};
-
 //function to build URL for REST countries to get data for country card
 const createCountryCardUrl = (countryName) =>
   `https://restcountries.eu/rest/v2/name/${countryName}`;
@@ -114,6 +102,29 @@ const renderCountryCard = (data) => {
       .removeClass("red")
       .addClass("teal");
     $("#addFavBtn").click(addFavourite);
+  }
+};
+
+// local storage for fav
+const addFavourite = () => {
+  const flagUrl = $("#flag-image").attr("src");
+  const countryName = $("#country-name").text();
+
+  const countryObj = { flag: flagUrl, country: countryName };
+
+  const favCountryList = JSON.parse(localStorage.getItem("favourites"));
+  favCountryList.push(countryObj);
+  localStorage.setItem("favourites", JSON.stringify(favCountryList));
+
+  const newFavCountryList = JSON.parse(localStorage.getItem("favourites"));
+
+  if (newFavCountryList.some((item) => item.country === countryName)) {
+    $("#addFavBtn")
+      .text("Remove From Favourites")
+      .removeClass("teal")
+      .addClass("red")
+      .attr("id", "removeFavBtn");
+    $("#removeFavBtn").click(removeFavourites);
   }
 };
 
