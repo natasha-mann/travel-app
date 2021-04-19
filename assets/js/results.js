@@ -1,3 +1,7 @@
+let offset = 0;
+
+const pageLength = 5;
+
 let apiVaccines = null;
 const getUrlParams = () => {
   const urlParams = new URLSearchParams(window.location.search);
@@ -15,7 +19,7 @@ const createPlacesCardUrl = (data, apiKey) =>
 
 //function to build URL for REST countries to get data for country card
 const createListItemsUrl = (data, apiKey, offset, pageLength) =>
-  `https://api.opentripmap.com/0.1/en/places/radius?apikey=${apiKey}&radius=1000&limit=${pageLength}&offset=${offset}&lon=${data.lon}&lat=${data.lat}&rate=2&format=json`;
+  `https://api.opentripmap.com/0.1/en/places/radius?apikey=${apiKey}&radius=10000&limit=${pageLength}&offset=${offset}&lon=${data.lon}&lat=${data.lat}&rate=2&format=json`;
 
 //function to build URL for travel briefing Api to get data for Health and Vaccines and Currency Card
 const createTravelBriefingUrl = (countryName) =>
@@ -151,7 +155,12 @@ const addFavourite = () => {
   }
 };
 
-const renderPlacesCard = (countryCardData, listItemData, apiKey) => {
+const renderPlacesCard = (
+  countryCardData,
+  listItemData,
+  apiKey,
+  placesData
+) => {
   const placesCard = `<div class="ui segment places-aside">
   <div class="ui center aligned segment card-header">
     <h3 class="card-title">Places to see in ${countryCardData.capital}</h3>
@@ -174,6 +183,23 @@ const renderPlacesCard = (countryCardData, listItemData, apiKey) => {
   listItemData.forEach(buildListItem);
 
   $("#places-list").on("click", { apiKey }, onListClick);
+
+  const showMorePlaces = async () => {
+    offset += pageLength;
+
+    const newListUrl = createListItemsUrl(
+      placesData,
+      apiKey,
+      offset,
+      pageLength
+    );
+    const newListData = await fetchData(newListUrl);
+    const newListItemData = await getListItemData(newListData);
+    $("#places-list").empty();
+    newListItemData.forEach(buildListItem);
+  };
+
+  $("#places-button").on("click", showMorePlaces);
 };
 
 // build list item for places container
@@ -362,8 +388,7 @@ const renderAllData = async (countryName) => {
     const apiKey = "5ae2e3f221c38a28845f05b6fac16143ca6a7e70223b17f1cc98d3e7";
     const urlForPlacesCard = createPlacesCardUrl(countryCardData, apiKey);
     const placesData = await fetchData(urlForPlacesCard);
-    let offset = 0;
-    const pageLength = 5;
+
     const urlForListItems = createListItemsUrl(
       placesData,
       apiKey,
@@ -382,7 +407,7 @@ const renderAllData = async (countryName) => {
 
     renderCountryCard(countryCardData);
     renderWelcomeCard(countryCardData);
-    renderPlacesCard(countryCardData, listItemData, apiKey);
+    renderPlacesCard(countryCardData, listItemData, apiKey, placesData);
     renderCurrencyCard();
     renderHealthCard(countryCardData, travelBriefingData);
   }
