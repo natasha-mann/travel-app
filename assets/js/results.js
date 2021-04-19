@@ -368,7 +368,7 @@ const renderModal = (event) => {
     const modalVaccineData = vaccineData.find(
       (vaccine) => vaccine.name === vaccineName
     );
-    console.log(modalVaccineData.name);
+
     const modal = $(`<div class="ui modal">
     <i class="close icon"></i>
     <div class="header">
