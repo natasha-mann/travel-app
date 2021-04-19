@@ -369,7 +369,7 @@ const renderHealthCard = (countryCardData, travelBriefingData) => {
       `<div class="ui placeholder center aligned segment">
       <div class="ui icon header">
         <i class="medkit icon"></i>
-        There is currently no vaccines data available for this country.
+        There is currently no vaccine data available for ${countryCardData.name}.
       </div>
     </div>`
     );
