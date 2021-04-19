@@ -172,7 +172,12 @@ const renderPlacesCard = (
 
 <div class="ui placeholder segment places-main">
   <div class="ui fluid card places-card">
-    <div class="image" id ="places-image-container"></div>
+    <div class="image center aligned content" id ="places-image-container"><div class="ui placeholder center aligned segment empty-favourites">
+    <div class="ui icon header">
+      <i class="thumbtack icon"></i>
+      Click on a place on to explore ${countryCardData.capital}
+    </div>
+  </div></div>
     <div class="center aligned content" id ="places-content"></div>
     <div id="places-link"> </div>
   </div>
