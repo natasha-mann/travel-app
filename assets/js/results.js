@@ -366,7 +366,12 @@ const renderHealthCard = (countryCardData, travelBriefingData) => {
     vaccines.forEach(addVaccineListItem);
   } else {
     $("#vaccines-list").append(
-      `<div> There currently isn't any vaccine data for this country </div>`
+      `<div class="ui placeholder center aligned segment">
+      <div class="ui icon header">
+        <i class="heart icon"></i>
+        You don't have any favourite countries yet! 
+      </div>
+    </div>`
     );
   }
 };
