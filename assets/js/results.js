@@ -362,7 +362,18 @@ const renderHealthCard = (countryCardData, travelBriefingData) => {
   $("#health-container").empty();
   const vaccines = travelBriefingData.vaccines;
   $("#health-container").append(healthCard);
-  vaccines.forEach(addVaccineListItem);
+  if (vaccines.length !== 0) {
+    vaccines.forEach(addVaccineListItem);
+  } else {
+    $("#vaccines-list").append(
+      `<div class="ui placeholder center aligned segment">
+      <div class="ui icon header">
+        <i class="medkit icon"></i>
+        There is currently no vaccine data available for ${countryCardData.name}.
+      </div>
+    </div>`
+    );
+  }
 };
 
 const renderModal = (event) => {
