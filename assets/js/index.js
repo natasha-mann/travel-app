@@ -30,20 +30,22 @@ const fetchData = async (url) => {
   }
 };
 
+const getCountryNames = (item) => item.name;
+
 const getRandomCountry = async () => {
   const allCountryData = await fetchData(
     "https://restcountries.eu/rest/v2/all"
   );
-  console.log(allCountryData);
+  const allCountryNames = allCountryData.map(getCountryNames);
+  const randomCountry =
+    allCountryNames[Math.floor(Math.random() * allCountryNames.length - 1)];
+  return randomCountry;
 };
 
 const randomSearch = async (event) => {
   event.preventDefault();
   const randomCountry = await getRandomCountry();
-
-  let index = Math.floor(Math.random() * countries.length - 1);
-  let countryName = countries[index];
-  window.location.href = `/results.html?country=${countryName}`;
+  window.location.href = `/results.html?country=${randomCountry}`;
 };
 
 $("#start-form").on("submit", onSubmit);
