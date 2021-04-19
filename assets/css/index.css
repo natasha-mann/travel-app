@@ -88,4 +88,7 @@ main {
   .places-main {
     min-width: 100% !important;
   }
+  .health-currency-container {
+    flex-wrap: wrap-reverse !important;
+  }
 }
