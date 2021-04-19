@@ -362,7 +362,13 @@ const renderHealthCard = (countryCardData, travelBriefingData) => {
   $("#health-container").empty();
   const vaccines = travelBriefingData.vaccines;
   $("#health-container").append(healthCard);
-  vaccines.forEach(addVaccineListItem);
+  if (vaccines.length !== 0) {
+    vaccines.forEach(addVaccineListItem);
+  } else {
+    $("#vaccines-list").append(
+      `<div> There currently isn't any vaccine data for this country </div>`
+    );
+  }
 };
 
 const renderModal = (event) => {
