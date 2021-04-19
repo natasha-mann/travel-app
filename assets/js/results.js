@@ -368,7 +368,7 @@ const renderHealthCard = (countryCardData, travelBriefingData) => {
     $("#vaccines-list").append(
       `<div class="ui placeholder center aligned segment">
       <div class="ui icon header">
-        <i class="heart icon"></i>
+        <i class="medkit icon"></i>
         You don't have any favourite countries yet! 
       </div>
     </div>`
