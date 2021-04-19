@@ -1,8 +1,8 @@
+// global variables
 let offset = 0;
-
 const pageLength = 5;
-
 let apiVaccines = null;
+
 const getUrlParams = () => {
   const urlParams = new URLSearchParams(window.location.search);
   const countryName = urlParams.get("country");
@@ -272,7 +272,8 @@ const renderPlacesPhoto = (selectedPlaceData) => {
 };
 
 //currency Input
-const renderCurrencyCard = () => {
+const renderCurrencyCard = (countryCardData, travelBriefingData) => {
+  const currencyData = travelBriefingData.currency;
   const currencyCard = `
 <div class="ui segments">
   <div class="ui segment card-header">
@@ -280,25 +281,63 @@ const renderCurrencyCard = () => {
   </div>
   <div class="ui segment">
     <div class="ui form">
-      <h3>The currency in Spain is Euro</h3>
-      <div class="field">
-        <label id="currency">Euro</label>
-        <input type="number" name="" />
+      <h3>The currency in ${countryCardData.name} is ${currencyData.name}</h3>
+      <div class="field" >
+        <label id="currency"> ${currencyData.name}</label>
+        <input type="number" id="currency-input" />
       </div>
       <div class="field">
-        <select class="ui fluid dropdown">
+        <select class="ui fluid dropdown" id="currency-list">
           <option value="">Select a Currency</option>
-          <option value="AL">Alabama</option>
         </select>
       </div>
       <div class="field">
-        <input type="number" name="" placeholder="rate" />
+      <label id="currency-label"> </label>
+        <input id="currency-rate" type="number" name="" readonly=""/>
       </div>
     </div>
   </div>
 </div>`;
   $("#currency-container").empty();
   $("#currency-container").append(currencyCard);
+
+  const currencyListArray = currencyData.compare;
+  currencyListArray.forEach(buildCurrencyList);
+
+  $("#currency-input").val(1);
+  let conversionRate = 1 / currencyData.rate;
+
+  const convertCurrency = () => {
+    $("#currency-input").val(1);
+    const selectedOption = $("#currency-list").val();
+    $("#currency-label").text(selectedOption);
+
+    const selectedRate = $("#currency-list").find(":selected").data("rate");
+    conversionRate = conversionRate * selectedRate;
+    $("#currency-rate").val(conversionRate);
+  };
+
+  const multiplyValue = () => {
+    const input = $("#currency-input").val();
+    const output = input * conversionRate;
+    $("#currency-rate").val(output);
+  };
+
+  multiplyValue();
+  $("#currency-list").change(convertCurrency);
+  $("#currency-input").keyup(multiplyValue);
+};
+
+const buildCurrencyList = (item) => {
+  if (item.name === "US Dollar") {
+    $("#currency-list").append(
+      `<option selected id="currency-item" value="${item.name}" data-rate="${item.rate}">${item.name}</option>`
+    );
+  } else {
+    $("#currency-list").append(
+      `<option id="currency-item" value="${item.name}" data-rate="${item.rate}">${item.name}</option>`
+    );
+  }
 };
 
 //health and vaccines
@@ -329,7 +368,7 @@ const renderModal = (event) => {
     const modalVaccineData = vaccineData.find(
       (vaccine) => vaccine.name === vaccineName
     );
-    console.log(modalVaccineData.name);
+
     const modal = $(`<div class="ui modal">
     <i class="close icon"></i>
     <div class="header">
@@ -408,7 +447,7 @@ const renderAllData = async (countryName) => {
     renderCountryCard(countryCardData);
     renderWelcomeCard(countryCardData);
     renderPlacesCard(countryCardData, listItemData, apiKey, placesData);
-    renderCurrencyCard();
+    renderCurrencyCard(countryCardData, travelBriefingData);
     renderHealthCard(countryCardData, travelBriefingData);
   }
 };

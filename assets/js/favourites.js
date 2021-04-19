@@ -51,7 +51,7 @@ const researchCountry = (event) => {
   if (target.is("img")) {
     const parent = $(target).closest("#research");
     const country = parent.data("country");
-    window.location.href = `/results.html?country=${country}`;
+    window.location.href = `./results.html?country=${country}`;
   }
 };
 
