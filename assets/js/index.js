@@ -15,7 +15,7 @@ const onSubmit = (event) => {
   initialiseLocalStorage();
 
   if (countryName) {
-    window.location.href = `/results.html?country=${countryName}`;
+    window.location.href = `./results.html?country=${countryName}`;
   }
 };
 
@@ -45,7 +45,7 @@ const getRandomCountry = async () => {
 const randomSearch = async (event) => {
   event.preventDefault();
   const randomCountry = await getRandomCountry();
-  window.location.href = `/results.html?country=${randomCountry}`;
+  window.location.href = `./results.html?country=${randomCountry}`;
 };
 
 $("#start-form").on("submit", onSubmit);
