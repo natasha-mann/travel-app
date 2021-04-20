@@ -6,6 +6,11 @@
   --orange: #fb8500ff;
 }
 
+body {
+  background-color: var(--light-cornflower-blue);
+  background: linear-gradient(#ffffff, #219ebcff, #ffffff);
+}
+
 #homeButton {
   background-color: var(--orange);
 }
