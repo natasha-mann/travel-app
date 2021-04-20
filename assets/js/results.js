@@ -178,7 +178,7 @@ const renderPlacesCard = (
       Click on a place on to explore ${countryCardData.capital}
     </div>
   </div></div>
-    <div class="center aligned content" id ="places-content"></div>
+    <div class="center aligned content " id ="places-content"></div>
     <div id="places-link"> </div>
   </div>
 </div> `;
@@ -271,7 +271,7 @@ const renderPlacesPhoto = (selectedPlaceData) => {
 
   if (selectedPlaceData.link) {
     $("#places-link").append(`
-<a href="${selectedPlaceData.link}"<button class="ui button">Learn more</button></a>
+<a href="${selectedPlaceData.link}"<button class="ui button learn-btn">Learn more</button></a>
 `);
   }
 };
