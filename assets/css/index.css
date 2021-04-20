@@ -21,6 +21,10 @@
   border: 0px !important;
 }
 
+.travel-logo {
+  min-width: 40% !important;
+}
+
 .travel-title {
   color: var(--light-cornflower-blue);
 }
@@ -71,6 +75,16 @@ main {
 .place-image {
   height: 100% !important;
   width: 40vh !important;
+}
+
+#places-content {
+  line-height: 2rem;
+  background-color: rgba(199, 194, 194, 0.178);
+}
+
+.learn-btn {
+  margin-top: 2% !important;
+  margin-bottom: 2% !important;
 }
 
 @media screen and (max-width: 480px) {
