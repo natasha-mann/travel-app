@@ -14,49 +14,39 @@ const createCountryCardUrl = (countryName) =>
   `https://restcountries.eu/rest/v2/name/${countryName}`;
 
 //function to build URL for REST countries to get data for country card
-const createPlacesCardUrl = (data, apiKey) =>
-  `https://api.opentripmap.com/0.1/en/places/geoname?apikey=${apiKey}&name=${data.capital}`;
+const createPlacesCardUrl = (capital, apiKey) =>
+  `https://api.opentripmap.com/0.1/en/places/geoname?apikey=${apiKey}&name=${capital}`;
 
 //function to build URL for REST countries to get data for country card
-const createListItemsUrl = (data, apiKey, offset, pageLength) =>
-  `https://api.opentripmap.com/0.1/en/places/radius?apikey=${apiKey}&radius=10000&limit=${pageLength}&offset=${offset}&lon=${data.lon}&lat=${data.lat}&rate=2&format=json`;
+const createListItemsUrl = ({ lat, lon, apiKey, offset, pageLength }) =>
+  `https://api.opentripmap.com/0.1/en/places/radius?apikey=${apiKey}&radius=10000&limit=${pageLength}&offset=${offset}&lon=${lon}&lat=${lat}&rate=2&format=json`;
 
 //function to build URL for travel briefing Api to get data for Health and Vaccines and Currency Card
 const createTravelBriefingUrl = (countryName) =>
   `https://travelbriefing.org/${countryName}?format=json`;
 
 // extract needed data from REST countries api call to construct country card
-const getCountryCardData = async (restApiData) => {
-  const data = restApiData[0];
-  return {
-    name: await data.name,
-    flag: await data.flag,
-    capital: await data.capital,
-    language: await data.languages[0].name,
-    currency: await data.currencies[0].name,
-  };
-};
+const getCountryCardData = async (data) => ({
+  name: await data.name,
+  flag: await data.flag,
+  capital: await data.capital,
+  language: await data.languages[0].name,
+  currency: await data.currencies[0].name,
+});
 
-const getEachData = (item) => {
-  return {
+// extract needed data from open trip map api call to construct places list
+const getListItemData = async (data) =>
+  data.map((item) => ({
     name: item.name,
     type: item.kinds,
     xid: item.xid,
-  };
-};
-
-// extract needed data from open trip map api call to construct places list
-const getListItemData = async (data) => {
-  return data.map(getEachData);
-};
+  }));
 
 // extract needed data from Travel Briefing Api call to construct Health and Vaccines and Currency Card
-const getTravelBriefingData = async (travelBriefingApiData) => {
-  return {
-    vaccines: travelBriefingApiData.vaccinations,
-    currency: travelBriefingApiData.currency,
-  };
-};
+const getTravelBriefingData = async (travelBriefingApiData) => ({
+  vaccines: travelBriefingApiData.vaccinations,
+  currency: travelBriefingApiData.currency,
+});
 
 // welcome card
 const renderWelcomeCard = (data) => {
@@ -192,12 +182,13 @@ const renderPlacesCard = (
   const showMorePlaces = async () => {
     offset += pageLength;
 
-    const newListUrl = createListItemsUrl(
-      placesData,
+    const newListUrl = createListItemsUrl({
+      lat: placesData.lat,
+      lon: placesData.lon,
       apiKey,
       offset,
-      pageLength
-    );
+      pageLength,
+    });
     const newListData = await fetchData(newListUrl);
     const newListItemData = await getListItemData(newListData);
     $("#places-list").empty();
@@ -227,35 +218,19 @@ const onListClick = async (event) => {
   renderPlacesPhoto(selectedPlaceData);
 };
 
-// extract data needed from api call to use for photo and description on places card
-
-const getValueFromNestedObject = (
-  nestedObj = {},
-  tree = [],
-  defaultValue = ""
-) =>
-  Array.isArray(tree)
-    ? tree.reduce(
-        (obj, key) => (obj && obj[key] ? obj[key] : defaultValue),
-        nestedObj
-      )
-    : {};
-
-const getSelectedPlaceData = (data) => {
-  return {
-    photo: getValueFromNestedObject(
-      data,
-      ["preview", "source"],
-      "https://www.aepint.nl/wp-content/uploads/2014/12/No_image_available.jpg"
-    ),
-    link: data.otm,
-    description: getValueFromNestedObject(
-      data,
-      ["wikipedia_extracts", "text"],
-      "Sorry we have no information!"
-    ),
-  };
-};
+const getSelectedPlaceData = (data) => ({
+  photo: getValueFromNestedObject(
+    data,
+    ["preview", "source"],
+    "https://www.aepint.nl/wp-content/uploads/2014/12/No_image_available.jpg"
+  ),
+  link: data.otm,
+  description: getValueFromNestedObject(
+    data,
+    ["wikipedia_extracts", "text"],
+    "Sorry we have no information!"
+  ),
+});
 
 // render photo and description of selected place on click of list item
 const renderPlacesPhoto = (selectedPlaceData) => {
@@ -421,35 +396,29 @@ const addVaccineListItem = (item) => {
   $(`#vaccine-name[data-name="${item.name}"]`).click(renderModal);
 };
 
-// async await - function to fetch data from api (taking in a url) and returns the data
-const fetchData = async (url) => {
-  try {
-    const response = await fetch(url);
-    const data = await response.json();
-    return data;
-  } catch (error) {
-    console.log(error);
-  }
-};
-
 const renderAllData = async (countryName) => {
   // create URL + fetch data for country card
   const urlForCountryCard = createCountryCardUrl(countryName);
   const restApiData = await fetchData(urlForCountryCard);
 
   // if the data from API exists as an array
-  if (Array.isArray(restApiData)) {
-    const countryCardData = await getCountryCardData(restApiData);
+  if (Array.isArray(restApiData) && restApiData.length) {
+    const countryCardData = await getCountryCardData(restApiData[0]);
+
     const apiKey = "5ae2e3f221c38a28845f05b6fac16143ca6a7e70223b17f1cc98d3e7";
-    const urlForPlacesCard = createPlacesCardUrl(countryCardData, apiKey);
+    const urlForPlacesCard = createPlacesCardUrl(
+      countryCardData.capital,
+      apiKey
+    );
     const placesData = await fetchData(urlForPlacesCard);
 
-    const urlForListItems = createListItemsUrl(
-      placesData,
+    const urlForListItems = createListItemsUrl({
+      lat: placesData.lat,
+      lon: placesData.lon,
       apiKey,
       offset,
-      pageLength
-    );
+      pageLength,
+    });
     const listData = await fetchData(urlForListItems);
     const listItemData = await getListItemData(listData);
 
@@ -458,6 +427,7 @@ const renderAllData = async (countryName) => {
     const travelBriefingData = await getTravelBriefingData(
       travelBriefingApiData
     );
+
     apiVaccines = travelBriefingData.vaccines;
 
     renderCountryCard(countryCardData);
@@ -469,7 +439,7 @@ const renderAllData = async (countryName) => {
 };
 
 // function called on submit of search form
-const onSubmit = (event) => {
+const handleSearch = (event) => {
   event.preventDefault();
 
   const countryName = $("#search-bar").val();
@@ -479,7 +449,9 @@ const onSubmit = (event) => {
   }
 };
 
-const onReady = () => {
+const initialisePage = () => {
+  initialiseLocalStorage();
+
   const countryName = getUrlParams();
 
   if (countryName) {
@@ -487,5 +459,5 @@ const onReady = () => {
   }
 };
 
-$("#nav-form").on("submit", onSubmit);
-$(document).ready(onReady);
+$("#nav-form").on("submit", handleSearch);
+$(document).ready(initialisePage);

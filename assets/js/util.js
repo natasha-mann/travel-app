@@ -16,3 +16,16 @@ const initialiseLocalStorage = () => {
     localStorage.setItem("favourites", JSON.stringify([]));
   }
 };
+
+// extract data needed from api call to use for photo and description on places card
+const getValueFromNestedObject = (
+  nestedObj = {},
+  tree = [],
+  defaultValue = ""
+) =>
+  Array.isArray(tree)
+    ? tree.reduce(
+        (obj, key) => (obj && obj[key] ? obj[key] : defaultValue),
+        nestedObj
+      )
+    : {};
