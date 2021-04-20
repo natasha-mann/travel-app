@@ -1,13 +1,5 @@
 const RESULTS_URL = "./results.html?country=";
 
-// set empty array in local storage if not present
-const initialiseLocalStorage = () => {
-  const localStorageData = localStorage.getItem("favourites");
-  if (!localStorageData) {
-    localStorage.setItem("favourites", JSON.stringify([]));
-  }
-};
-
 // function called on submit of search form
 const handleSearch = (event) => {
   event.preventDefault();
@@ -16,17 +8,6 @@ const handleSearch = (event) => {
 
   if (countryName) {
     window.location.href = `${RESULTS_URL}${countryName}`;
-  }
-};
-
-// async await - function to fetch data from api (taking in a url) and returns the data
-const fetchData = async (url) => {
-  try {
-    const response = await fetch(url);
-    const data = await response.json();
-    return data;
-  } catch (error) {
-    console.log(error);
   }
 };
 
