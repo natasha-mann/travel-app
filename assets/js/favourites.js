@@ -60,22 +60,21 @@ const removeFromFavourites = (event) => {
   const parent = $(target).closest("#research");
   const country = parent.data("country");
   const favourites = JSON.parse(localStorage.getItem("favourites"));
-  const callback = (each) => {
+  const filteredFavourites = favourites.filter((each) => {
     if (each.country === country) {
       return false;
     } else {
       return true;
     }
-  };
-  const filteredFavourites = favourites.filter(callback);
+  });
   localStorage.setItem("favourites", JSON.stringify(filteredFavourites));
   renderFavouritesCards(filteredFavourites);
 };
 
-const onLoad = () => {
+const initialisePage = () => {
   const favourites = getFromLocalStorage();
 
   renderFavouritesCards(favourites);
 };
 
-$(document).ready(onLoad);
+$(document).ready(initialisePage);
