@@ -32,14 +32,14 @@ const renderFavouritesCards = (favourites) => {
 };
 
 const renderFavCountryCard = (item) => {
-  const favCountryCard = `<div class="ui centered card" id="research" data-country="${item.country}">
+  const favCountryCard = `<div class="ui centered card link" id="research" data-country="${item.country}">
   <div class="image" >
     <img src= "${item.flag}"/>
   </div>
   <div class="content ui grid col-4 center aligned" >
     <div class="header">${item.country}</div>
   </div>
-  <div class="ui bottom attached button" name="removeFavourite">Remove from Favourites</div>
+  <div class="ui bottom attached red button" name="removeFavourite">Remove from Favourites</div>
 </div>`;
   $("#favourite-container").append(favCountryCard);
   $('div[name="removeFavourite"]').click(removeFromFavourites);
