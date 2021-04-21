@@ -445,8 +445,11 @@ const handleSearch = (event) => {
   const countryName = $("#search-bar").val();
 
   if (countryName) {
+    addLastSearch();
     renderAllData(countryName);
   }
+
+  $("#nav-form").trigger("reset");
 };
 
 const initialisePage = () => {
