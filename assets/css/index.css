@@ -6,6 +6,10 @@
   --orange: #fb8500ff;
 }
 
+.error::placeholder {
+  color: var(--orange) !important;
+}
+
 #favouriteButton {
   background-color: var(--orange);
 }
@@ -30,6 +34,7 @@
 }
 
 .search-container {
+  background-color: unset;
   width: 50%;
   position: absolute;
   left: 50%;
@@ -38,8 +43,15 @@
   line-height: 70px;
 }
 
+#start-form {
+  margin-top: 10% !important;
+  background-color: white !important;
+  padding: 10% 15%;
+}
+
 .random-form {
-  margin-top: 5%;
+  background-color: white !important;
+  padding: 0% 15% 10% 15%;
 }
 
 main {
@@ -87,9 +99,25 @@ main {
   margin-bottom: 2% !important;
 }
 
+@media screen and (max-width: 1000px) {
+  #start-form {
+    margin-top: 14% !important;
+  }
+}
+
+@media screen and (max-width: 730px) {
+  .search-container {
+    width: 70%;
+  }
+
+  #start-form {
+    margin-top: 16% !important;
+  }
+}
+
 @media screen and (max-width: 480px) {
   .search-container {
-    width: 80%;
+    width: 100%;
   }
 
   #places-container {

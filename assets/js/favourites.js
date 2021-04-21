@@ -1,12 +1,3 @@
-const getFromLocalStorage = () => {
-  const favourites = localStorage.getItem("favourites");
-  if (favourites) {
-    return JSON.parse(favourites);
-  } else {
-    return [];
-  }
-};
-
 const renderEmptyFavourites = () => {
   const emptyFavourites = `<div class="ui placeholder center aligned segment empty-favourites">
   <div class="ui icon header">
@@ -68,7 +59,7 @@ const removeFromFavourites = (event) => {
 };
 
 const initialisePage = () => {
-  const favourites = getFromLocalStorage();
+  const favourites = getFromLocalStorage("favourites");
 
   renderFavouritesCards(favourites);
 };
