@@ -9,6 +9,8 @@ const handleSearch = (event) => {
   if (countryName) {
     addLastSearch();
     window.location.href = `${RESULTS_URL}${countryName}`;
+  } else {
+    $("#search-bar").addClass("error");
   }
 };
 

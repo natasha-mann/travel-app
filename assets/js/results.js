@@ -447,6 +447,8 @@ const handleSearch = (event) => {
   if (countryName) {
     addLastSearch();
     renderAllData(countryName);
+  } else {
+    $("#search-bar").addClass("error");
   }
 
   $("#nav-form").trigger("reset");

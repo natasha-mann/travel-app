@@ -6,6 +6,10 @@
   --orange: #fb8500ff;
 }
 
+.error::placeholder {
+  color: var(--orange) !important;
+}
+
 #favouriteButton {
   background-color: var(--orange);
 }
