@@ -257,7 +257,7 @@ const renderModal = (event) => {
     </div>
     <div class="image content">
       <div class="ui medium image">
-        <img src="/assets/images/hospital.png">
+        <img src=" ./assets/images/hospital.png">
       </div>
       <div class="description">
         <div class="ui header">${modalVaccineData.name}</div>
