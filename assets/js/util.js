@@ -9,7 +9,9 @@ const fetchData = async (url) => {
   }
 };
 
-// set empty array in local storage if not present
+/*
+ Functions for local storage
+ */
 const initialiseLocalStorage = () => {
   const localStorageFavs = localStorage.getItem("favourites");
   const localStorageSearches = localStorage.getItem("searches");
@@ -30,7 +32,6 @@ const getFromLocalStorage = (storageName) => {
   }
 };
 
-// local storage for fav
 const addLastSearch = () => {
   const countryName = $("#search-bar").val();
 

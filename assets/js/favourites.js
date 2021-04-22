@@ -1,3 +1,8 @@
+/*
+ Functions for favourites cards
+  local storage
+ */
+
 const renderEmptyFavourites = () => {
   const emptyFavourites = `<div class="ui placeholder center aligned segment empty-favourites">
   <div class="ui icon header">
@@ -57,6 +62,11 @@ const removeFromFavourites = (event) => {
   localStorage.setItem("favourites", JSON.stringify(filteredFavourites));
   renderFavouritesCards(filteredFavourites);
 };
+
+/*
+ Main function to 
+ run on page load
+ */
 
 const initialisePage = () => {
   const favourites = getFromLocalStorage("favourites");
