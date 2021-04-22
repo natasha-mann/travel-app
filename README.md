@@ -5,17 +5,46 @@
 <h2> Table of Contents </h2>
 
 - [Project Link](#project-link)
+- [Getting Started](#getting-started)
+- [Contributors](#contributors)
 - [About the Project](#about-the-project)
-  - [User Story](#user-story)
+  - [User Flows](#user-flows)
   - [Technologies Used](#technologies-used)
+  - [Web APIs](#web-apis)
   - [Wireframes](#wireframes)
 - [Plans for Improvement](#plans-for-improvement)
 - [Screenshots](#screenshots)
-  - [Desktop/laptop](#desktoplaptop)
+  - [Desktop index page](#desktop-index-page)
+  - [Desktop index page with recent searches](#desktop-index-page-with-recent-searches)
+  - [Desktop results page](#desktop-results-page)
+  - [Desktop favourites page](#desktop-favourites-page)
+  - [Mobile index page](#mobile-index-page)
+  - [Mobile results page](#mobile-results-page)
+  - [Mobile favourites page](#mobile-favourites-page)
+  - [Tablet](#tablet)
 
 ## Project Link
 
 Click [here](https://natasha-mann.github.io/travel-app/) to view the project on GitHub pages.
+
+## Getting Started
+
+- Clone the GitHub project into your local machine
+- Navigate into the project
+- Open the project into VSCode
+- Open the 'index.html' into your default browser
+
+git clone git@github.com: git@github.com:natasha-mann/travel-app/.git
+cd travel-app
+code .
+
+## Contributors
+
+- Otilia: @otivisan22
+- Michael: @Cratesy
+- Pamela: @PDUBB3
+- Natasha: @Natasha-Mann
+- Hakel: @Hakkelo89
 
 ## About the Project
 
@@ -59,10 +88,10 @@ We used three different APIs to get the required data for this project:
 > Note:
 > During implementation some of these features were improved or changed.
 
-![Image](./assets/images/wireframe1.png)
-![Image](./assets/images/wireframe2.png)
-![Image](./assets/images/wireframe3.png)
-![Image](./assets/images/wireframe4.png)
+![Image](./assets/screenshots/wireframe1.png)
+![Image](./assets/screenshots/wireframe2.png)
+![Image](./assets/screenshots/wireframe3.png)
+![Image](./assets/screenshots/wireframe4.png)
 
 ## Plans for Improvement
 
@@ -74,3 +103,35 @@ We used three different APIs to get the required data for this project:
 - Other features: Other third party APIs integrations such as hotel bookings or flight searches.
 
 ## Screenshots
+
+### Desktop index page
+
+![Image](./assets/screenshots/desktop1.png)
+
+### Desktop index page with recent searches
+
+![Image](./assets/screenshots/desktop2.png)
+
+### Desktop results page
+
+![Image](./assets/screenshots/desktop3.png)
+
+### Desktop favourites page
+
+![Image](./assets/screenshots/desktop4.png)
+
+### Mobile index page
+
+![Image](./assets/screenshots/mobile1.png)
+
+### Mobile results page
+
+![Image](./assets/screenshots/mobile2.png)
+
+### Mobile favourites page
+
+![Image](./assets/screenshots/mobile3.png)
+
+### Tablet
+
+![Image](./assets/screenshots/tablet.png)
