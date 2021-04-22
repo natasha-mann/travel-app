@@ -28,6 +28,13 @@
       crossorigin="anonymous"
     />
     <link rel="stylesheet" href="./assets/css/index.css" />
+    <style>
+      body {
+        background-image: url(./assets/images/background\ image.jpg);
+        background-position: center;
+        background-size: cover;
+      }
+    </style>
     <title>Travel Companion</title>
   </head>
   <body>
@@ -36,7 +43,7 @@
         <!-- Search bar component added dynamically in javascript on initial search-->
 
         <!-- App heading component -->
-        <div class="item">
+        <div class="item travel-logo">
           <h2 class="ui header">
             <img
               class="ui image"
@@ -59,11 +66,22 @@
     <main class="container" id="main-container">
       <!-- initial search container section -->
       <div
-        class="ui center aligned very padded raised segment search-container"
+        class="ui basic very padded segment search-container"
         id="search-container"
       >
+        <div
+          class="ui teal button right floated popup-btn"
+          data-position="bottom right"
+        >
+          Recent Searches
+        </div>
+        <div class="ui flowing popup transition hidden" id="popup-container">
+          <div class="ui divided center aligned grid" id="popup-cards"></div>
+        </div>
         <form class="ui large form" id="start-form">
-          <h2 class="padded">Where would you like to go?</h2>
+          <h2 class="ui center aligned padded header">
+            Where would you like to go?
+          </h2>
           <div class="field">
             <div class="ui left icon input">
               <i class="search icon"></i>
@@ -79,6 +97,18 @@
             Search!
           </button>
         </form>
+        <form class="ui large form random-form" id="random-form">
+          <h3 class="ui center aligned header very padded">
+            Let us randomly generate a country for you!
+          </h3>
+          <button
+            class="ui fluid large teal submit button"
+            type="submit"
+            id="random-button"
+          >
+            Find a Random Country
+          </button>
+        </form>
       </div>
     </main>
     <script
@@ -91,6 +121,7 @@
       integrity="sha512-dqw6X88iGgZlTsONxZK9ePmJEFrmHwpuMrsUChjAw1mRUhUITE5QU9pkcSox+ynfLhL15Sv2al5A0LVyDCmtUw=="
       crossorigin="anonymous"
     ></script>
+    <script src="./assets/js/util.js"></script>
     <script src="./assets/js/index.js"></script>
   </body>
 </html>

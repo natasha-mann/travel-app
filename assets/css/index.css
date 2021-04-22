@@ -6,6 +6,10 @@
   --orange: #fb8500ff;
 }
 
+.error::placeholder {
+  color: var(--orange) !important;
+}
+
 #favouriteButton {
   background-color: var(--orange);
 }
@@ -21,17 +25,33 @@
   border: 0px !important;
 }
 
+.travel-logo {
+  min-width: 40% !important;
+}
+
 .travel-title {
   color: var(--light-cornflower-blue);
 }
 
 .search-container {
+  background-color: unset;
   width: 50%;
   position: absolute;
   left: 50%;
   top: 45%;
   transform: translate(-50%, -50%);
   line-height: 70px;
+}
+
+#start-form {
+  margin-top: 10% !important;
+  background-color: white !important;
+  padding: 10% 15%;
+}
+
+.random-form {
+  background-color: white !important;
+  padding: 0% 15% 10% 15%;
 }
 
 main {
@@ -69,9 +89,35 @@ main {
   width: 40vh !important;
 }
 
+#places-content {
+  line-height: 2rem;
+  background-color: rgba(199, 194, 194, 0.178);
+}
+
+.learn-btn {
+  margin-top: 2% !important;
+  margin-bottom: 2% !important;
+}
+
+@media screen and (max-width: 1000px) {
+  #start-form {
+    margin-top: 14% !important;
+  }
+}
+
+@media screen and (max-width: 730px) {
+  .search-container {
+    width: 70%;
+  }
+
+  #start-form {
+    margin-top: 16% !important;
+  }
+}
+
 @media screen and (max-width: 480px) {
   .search-container {
-    width: 80%;
+    width: 100%;
   }
 
   #places-container {
@@ -83,5 +129,8 @@ main {
 
   .places-main {
     min-width: 100% !important;
+  }
+  .health-currency-container {
+    flex-wrap: wrap-reverse !important;
   }
 }

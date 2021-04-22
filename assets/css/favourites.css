@@ -25,11 +25,28 @@
   color: var(--light-cornflower-blue);
 }
 
+.travel-logo {
+  min-width: 40% !important;
+}
+
 .favourite-card {
   margin-top: 10% !important;
+}
+
+.empty-favourites {
+  margin-top: 6% !important;
+  width: 50%;
+  line-height: 70px;
 }
 
 main {
   height: 87vh;
   margin: 1%;
+}
+
+@media screen and (max-width: 480px) {
+  .empty-favourites {
+    width: 80%;
+    margin-top: 20% !important;
+  }
 }
