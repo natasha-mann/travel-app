@@ -1,7 +1,12 @@
-// global variables
+// Global Variables
 let offset = 0;
 const pageLength = 5;
 let apiVaccines = null;
+
+/*
+ Functions to build the URLs 
+ Needed to fetch data from API
+ */
 
 const getUrlParams = () => {
   const urlParams = new URLSearchParams(window.location.search);
@@ -9,23 +14,23 @@ const getUrlParams = () => {
   return countryName;
 };
 
-//function to build URL for REST countries to get data for country card
 const createCountryCardUrl = (countryName) =>
   `https://restcountries.eu/rest/v2/name/${countryName}`;
 
-//function to build URL for REST countries to get data for country card
 const createPlacesCardUrl = (capital, apiKey) =>
   `https://api.opentripmap.com/0.1/en/places/geoname?apikey=${apiKey}&name=${capital}`;
 
-//function to build URL for REST countries to get data for country card
 const createListItemsUrl = ({ lat, lon, apiKey, offset, pageLength }) =>
   `https://api.opentripmap.com/0.1/en/places/radius?apikey=${apiKey}&radius=10000&limit=${pageLength}&offset=${offset}&lon=${lon}&lat=${lat}&rate=2&format=json`;
 
-//function to build URL for travel briefing Api to get data for Health and Vaccines and Currency Card
 const createTravelBriefingUrl = (countryName) =>
   `https://travelbriefing.org/${countryName}?format=json`;
 
-// extract needed data from REST countries api call to construct country card
+/*
+ Functions to extract the data we need
+ from the data returned from the API
+ */
+
 const getCountryCardData = async (data) => ({
   name: await data.name,
   flag: await data.flag,
@@ -34,7 +39,6 @@ const getCountryCardData = async (data) => ({
   currency: await data.currencies[0].name,
 });
 
-// extract needed data from open trip map api call to construct places list
 const getListItemData = async (data) =>
   data.map((item) => ({
     name: item.name,
@@ -42,13 +46,31 @@ const getListItemData = async (data) =>
     xid: item.xid,
   }));
 
-// extract needed data from Travel Briefing Api call to construct Health and Vaccines and Currency Card
 const getTravelBriefingData = async (travelBriefingApiData) => ({
   vaccines: travelBriefingApiData.vaccinations,
   currency: travelBriefingApiData.currency,
 });
 
-// welcome card
+const getSelectedPlaceData = (data) => ({
+  photo: getValueFromNestedObject(
+    data,
+    ["preview", "source"],
+    "https://www.aepint.nl/wp-content/uploads/2014/12/No_image_available.jpg"
+  ),
+  link: data.otm,
+  description: getValueFromNestedObject(
+    data,
+    ["wikipedia_extracts", "text"],
+    "Sorry we have no information!"
+  ),
+});
+
+/*
+ Functions to render individual
+ component cards dynamically 
+ using API data
+ */
+
 const renderWelcomeCard = (data) => {
   const welcomeCard = `<div class="ui message">
   <div class="header">Welcome!</div>
@@ -61,7 +83,6 @@ const renderWelcomeCard = (data) => {
   $("#welcome-card").append(welcomeCard);
 };
 
-// country card
 const renderCountryCard = (data) => {
   const countryCard = `<div class="ui centered card">
   <div class="image">
@@ -96,52 +117,6 @@ const renderCountryCard = (data) => {
       .removeClass("red")
       .addClass("teal");
     $("#addFavBtn").click(addFavourite);
-  }
-};
-
-const removeFavourites = () => {
-  const countryName = $("#country-name").text();
-  const favourites = JSON.parse(localStorage.getItem("favourites"));
-
-  const filteredFavourites = favourites.filter(
-    (item) => item.country !== countryName
-  );
-  localStorage.setItem("favourites", JSON.stringify(filteredFavourites));
-
-  const newFavCountryList = JSON.parse(localStorage.getItem("favourites"));
-  if (
-    newFavCountryList.some((item) => item.country !== countryName) ||
-    newFavCountryList.length === 0
-  ) {
-    $("#removeFavBtn")
-      .text("Add to Favourites")
-      .removeClass("red")
-      .addClass("teal")
-      .attr("id", "addFavBtn");
-    $("#addFavBtn").click(addFavourite);
-  }
-};
-
-// local storage for fav
-const addFavourite = () => {
-  const flagUrl = $("#flag-image").attr("src");
-  const countryName = $("#country-name").text();
-
-  const countryObj = { flag: flagUrl, country: countryName };
-
-  const favCountryList = JSON.parse(localStorage.getItem("favourites"));
-  favCountryList.push(countryObj);
-  localStorage.setItem("favourites", JSON.stringify(favCountryList));
-
-  const newFavCountryList = JSON.parse(localStorage.getItem("favourites"));
-
-  if (newFavCountryList.some((item) => item.country === countryName)) {
-    $("#addFavBtn")
-      .text("Remove From Favourites")
-      .removeClass("teal")
-      .addClass("red")
-      .attr("id", "removeFavBtn");
-    $("#removeFavBtn").click(removeFavourites);
   }
 };
 
@@ -198,7 +173,6 @@ const renderPlacesCard = (
   $("#places-button").on("click", showMorePlaces);
 };
 
-// build list item for places container
 const buildListItem = (item) => {
   $("#places-list").append(`
   <div class="item">
@@ -207,32 +181,6 @@ const buildListItem = (item) => {
   `);
 };
 
-// on click of list item get data from api for places image and description and render
-const onListClick = async (event) => {
-  const apiKey = event.data.apiKey;
-  const selectedPlace = event.target;
-  const selectedPlaceXid = $(selectedPlace).data("xid");
-  const xidUrl = `https://api.opentripmap.com/0.1/en/places/xid/${selectedPlaceXid}?apikey=${apiKey}`;
-  const selectedPlaceApiData = await fetchData(xidUrl);
-  const selectedPlaceData = getSelectedPlaceData(selectedPlaceApiData);
-  renderPlacesPhoto(selectedPlaceData);
-};
-
-const getSelectedPlaceData = (data) => ({
-  photo: getValueFromNestedObject(
-    data,
-    ["preview", "source"],
-    "https://www.aepint.nl/wp-content/uploads/2014/12/No_image_available.jpg"
-  ),
-  link: data.otm,
-  description: getValueFromNestedObject(
-    data,
-    ["wikipedia_extracts", "text"],
-    "Sorry we have no information!"
-  ),
-});
-
-// render photo and description of selected place on click of list item
 const renderPlacesPhoto = (selectedPlaceData) => {
   $("#places-image-container").empty();
   $("#places-content").empty();
@@ -251,7 +199,81 @@ const renderPlacesPhoto = (selectedPlaceData) => {
   }
 };
 
-//currency Input
+const renderHealthCard = (countryCardData, travelBriefingData) => {
+  const healthCard = `<div class="ui segments">
+  <div class="ui segment card-header">
+    <h3 class="ui header center aligned card-title">
+      Health & Vaccines for ${countryCardData.name}
+    </h3>
+  </div>
+  <div class="ui segment">
+  <div class="ui middle aligned selection list" id= "vaccines-list">
+  </div>
+  </div>
+</div>`;
+
+  $("#health-container").empty();
+  const vaccines = travelBriefingData.vaccines;
+  $("#health-container").append(healthCard);
+  if (vaccines.length !== 0) {
+    vaccines.forEach(addVaccineListItem);
+  } else {
+    $("#vaccines-list").append(
+      `<div class="ui placeholder center aligned segment">
+      <div class="ui icon header">
+        <i class="medkit icon"></i>
+        There is currently no vaccine data available for ${countryCardData.name}.
+      </div>
+    </div>`
+    );
+  }
+};
+
+const addVaccineListItem = (item) => {
+  $("#vaccines-list")
+    .append(`<a class="item" id= "vaccine-name" data-name ="${item.name}">
+  <i class="medkit icon"></i>
+  <div class="content">
+    <div class="header">${item.name}</div>
+  </div>
+</a>`);
+
+  $(`#vaccine-name[data-name="${item.name}"]`).click(renderModal);
+};
+
+const renderModal = (event) => {
+  if (apiVaccines) {
+    const vaccine = event.currentTarget;
+    const vaccineName = $(vaccine).data("name");
+    const vaccineData = apiVaccines;
+    const modalVaccineData = vaccineData.find(
+      (vaccine) => vaccine.name === vaccineName
+    );
+
+    const modal = $(`<div class="ui modal">
+    <i class="close icon"></i>
+    <div class="header">
+    Travel Information
+    </div>
+    <div class="image content">
+      <div class="ui medium image">
+        <img src=" ./assets/images/hospital.png">
+      </div>
+      <div class="description">
+        <div class="ui header">${modalVaccineData.name}</div>
+        <p>${modalVaccineData.message}</p>
+      </div>
+    </div>
+    <div class="actions">
+      <div class="ui teal deny button">
+        Close
+      </div>
+    </div>
+  </div>`);
+    $(modal).modal("show");
+  }
+};
+
 const renderCurrencyCard = (countryCardData, travelBriefingData) => {
   const currencyData = travelBriefingData.currency;
   const currencyCard = `
@@ -320,82 +342,6 @@ const buildCurrencyList = (item) => {
   }
 };
 
-//health and vaccines
-const renderHealthCard = (countryCardData, travelBriefingData) => {
-  const healthCard = `<div class="ui segments">
-  <div class="ui segment card-header">
-    <h3 class="ui header center aligned card-title">
-      Health & Vaccines for ${countryCardData.name}
-    </h3>
-  </div>
-  <div class="ui segment">
-  <div class="ui middle aligned selection list" id= "vaccines-list">
-  </div>
-  </div>
-</div>`;
-
-  $("#health-container").empty();
-  const vaccines = travelBriefingData.vaccines;
-  $("#health-container").append(healthCard);
-  if (vaccines.length !== 0) {
-    vaccines.forEach(addVaccineListItem);
-  } else {
-    $("#vaccines-list").append(
-      `<div class="ui placeholder center aligned segment">
-      <div class="ui icon header">
-        <i class="medkit icon"></i>
-        There is currently no vaccine data available for ${countryCardData.name}.
-      </div>
-    </div>`
-    );
-  }
-};
-
-const renderModal = (event) => {
-  if (apiVaccines) {
-    const vaccine = event.currentTarget;
-    const vaccineName = $(vaccine).data("name");
-    const vaccineData = apiVaccines;
-    const modalVaccineData = vaccineData.find(
-      (vaccine) => vaccine.name === vaccineName
-    );
-
-    const modal = $(`<div class="ui modal">
-    <i class="close icon"></i>
-    <div class="header">
-    Travel Information
-    </div>
-    <div class="image content">
-      <div class="ui medium image">
-        <img src="/assets/images/hospital.png">
-      </div>
-      <div class="description">
-        <div class="ui header">${modalVaccineData.name}</div>
-        <p>${modalVaccineData.message}</p>
-      </div>
-    </div>
-    <div class="actions">
-      <div class="ui teal deny button">
-        Close
-      </div>
-    </div>
-  </div>`);
-    $(modal).modal("show");
-  }
-};
-
-const addVaccineListItem = (item) => {
-  $("#vaccines-list")
-    .append(`<a class="item" id= "vaccine-name" data-name ="${item.name}">
-  <i class="medkit icon"></i>
-  <div class="content">
-    <div class="header">${item.name}</div>
-  </div>
-</a>`);
-
-  $(`#vaccine-name[data-name="${item.name}"]`).click(renderModal);
-};
-
 const renderAllData = async (countryName) => {
   // create URL + fetch data for country card
   const urlForCountryCard = createCountryCardUrl(countryName);
@@ -438,7 +384,71 @@ const renderAllData = async (countryName) => {
   }
 };
 
-// function called on submit of search form
+/*
+ Functions for local storage
+ and favourites
+ */
+
+const addFavourite = () => {
+  const flagUrl = $("#flag-image").attr("src");
+  const countryName = $("#country-name").text();
+
+  const countryObj = { flag: flagUrl, country: countryName };
+
+  const favCountryList = JSON.parse(localStorage.getItem("favourites"));
+  favCountryList.push(countryObj);
+  localStorage.setItem("favourites", JSON.stringify(favCountryList));
+
+  const newFavCountryList = JSON.parse(localStorage.getItem("favourites"));
+
+  if (newFavCountryList.some((item) => item.country === countryName)) {
+    $("#addFavBtn")
+      .text("Remove From Favourites")
+      .removeClass("teal")
+      .addClass("red")
+      .attr("id", "removeFavBtn");
+    $("#removeFavBtn").click(removeFavourites);
+  }
+};
+
+const removeFavourites = () => {
+  const countryName = $("#country-name").text();
+  const favourites = JSON.parse(localStorage.getItem("favourites"));
+
+  const filteredFavourites = favourites.filter(
+    (item) => item.country !== countryName
+  );
+  localStorage.setItem("favourites", JSON.stringify(filteredFavourites));
+
+  const newFavCountryList = JSON.parse(localStorage.getItem("favourites"));
+  if (
+    newFavCountryList.some((item) => item.country !== countryName) ||
+    newFavCountryList.length === 0
+  ) {
+    $("#removeFavBtn")
+      .text("Add to Favourites")
+      .removeClass("red")
+      .addClass("teal")
+      .attr("id", "addFavBtn");
+    $("#addFavBtn").click(addFavourite);
+  }
+};
+
+/*
+ Main functions for events happening
+ on load, on click or on submit
+ */
+
+const onListClick = async (event) => {
+  const apiKey = event.data.apiKey;
+  const selectedPlace = event.target;
+  const selectedPlaceXid = $(selectedPlace).data("xid");
+  const xidUrl = `https://api.opentripmap.com/0.1/en/places/xid/${selectedPlaceXid}?apikey=${apiKey}`;
+  const selectedPlaceApiData = await fetchData(xidUrl);
+  const selectedPlaceData = getSelectedPlaceData(selectedPlaceApiData);
+  renderPlacesPhoto(selectedPlaceData);
+};
+
 const handleSearch = (event) => {
   event.preventDefault();
 

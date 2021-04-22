@@ -6,6 +6,13 @@
   --orange: #fb8500ff;
 }
 
+main {
+  height: 87vh;
+  margin: 1%;
+}
+
+/* Navbar styling */
+
 #homeButton {
   background-color: var(--orange);
 }
@@ -29,6 +36,8 @@
   min-width: 40% !important;
 }
 
+/* Favourite cards styling */
+
 .favourite-card {
   margin-top: 10% !important;
 }
@@ -37,11 +46,6 @@
   margin-top: 6% !important;
   width: 50%;
   line-height: 70px;
-}
-
-main {
-  height: 87vh;
-  margin: 1%;
 }
 
 @media screen and (max-width: 480px) {

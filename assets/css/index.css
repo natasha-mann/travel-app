@@ -6,9 +6,12 @@
   --orange: #fb8500ff;
 }
 
-.error::placeholder {
-  color: var(--orange) !important;
+main {
+  height: 87vh;
+  margin: 1%;
 }
+
+/* Navbar styling */
 
 #favouriteButton {
   background-color: var(--orange);
@@ -33,6 +36,8 @@
   color: var(--light-cornflower-blue);
 }
 
+/* Search container styling */
+
 .search-container {
   background-color: unset;
   width: 50%;
@@ -49,15 +54,16 @@
   padding: 10% 15%;
 }
 
+.error::placeholder {
+  color: var(--orange) !important;
+}
+
 .random-form {
   background-color: white !important;
   padding: 0% 15% 10% 15%;
 }
 
-main {
-  height: 87vh;
-  margin: 1%;
-}
+/* Results page styling for card elements */
 
 .card-header {
   background-color: var(--prussian-blue) !important;
@@ -67,6 +73,7 @@ main {
   color: var(--light-cornflower-blue) !important;
 }
 
+/* Places card styling */
 .places-aside {
   min-width: 30% !important;
 }
@@ -98,6 +105,8 @@ main {
   margin-top: 2% !important;
   margin-bottom: 2% !important;
 }
+
+/* Media Queries */
 
 @media screen and (max-width: 1000px) {
   #start-form {

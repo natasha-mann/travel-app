@@ -1,19 +1,7 @@
+// Global Variables
 const RESULTS_URL = "./results.html?country=";
 
-// function called on submit of search form
-const handleSearch = (event) => {
-  event.preventDefault();
-
-  const countryName = $("#search-bar").val();
-
-  if (countryName) {
-    addLastSearch();
-    window.location.href = `${RESULTS_URL}${countryName}`;
-  } else {
-    $("#search-bar").addClass("error");
-  }
-};
-
+// Local storage for search history
 const renderRecentSearches = (searches) => {
   $("#popup-cards").empty();
 
@@ -56,6 +44,7 @@ const renderRecentCard = (item) => {
   $(`#${country}-btn`).click(search);
 };
 
+// API call to get country data
 const getRandomCountry = async () => {
   const allCountryData = await fetchData(
     "https://restcountries.eu/rest/v2/all"
@@ -64,6 +53,24 @@ const getRandomCountry = async () => {
   const randomCountry =
     allCountryNames[Math.floor(Math.random() * allCountryNames.length - 1)];
   return randomCountry;
+};
+
+/*
+ Main functions for events happening
+ on load, on click or on submit
+ */
+
+const handleSearch = (event) => {
+  event.preventDefault();
+
+  const countryName = $("#search-bar").val();
+
+  if (countryName) {
+    addLastSearch();
+    window.location.href = `${RESULTS_URL}${countryName}`;
+  } else {
+    $("#search-bar").addClass("error");
+  }
 };
 
 const handleRandomSearch = async (event) => {
