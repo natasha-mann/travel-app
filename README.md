@@ -40,11 +40,11 @@ code .
 
 ## Contributors
 
-- Otilia: @otivisan22
-- Michael: @Cratesy
-- Pamela: @PDUBB3
-- Natasha: @Natasha-Mann
-- Hakel: @Hakkelo89
+- Otilia: https://github.com/otivisan22
+- Michael: https://github.com/Cratesy
+- Pamela: https://github.com/PDUBB3
+- Natasha: https://github.com/natasha-mann
+- Hakel: https://github.com/Hakkelo89
 
 ## About the Project
 
