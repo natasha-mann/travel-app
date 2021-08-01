@@ -34,9 +34,11 @@ Click [here](https://natasha-mann.github.io/travel-app/) to view the project on 
 - Open the project into VSCode
 - Open the 'index.html' into your default browser
 
-git clone git@github.com: git@github.com:natasha-mann/travel-app/.git
+```
+git clone git@github.com:natasha-mann/travel-app/.git
 cd travel-app
 code .
+```
 
 ## Contributors
 
@@ -135,3 +137,7 @@ We used three different APIs to get the required data for this project:
 ### Tablet
 
 ![Image](./assets/screenshots/tablet.png)
+
+```
+
+```
