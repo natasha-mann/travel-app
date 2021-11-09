@@ -15,7 +15,7 @@ const getUrlParams = () => {
 };
 
 const createCountryCardUrl = (countryName) =>
-  `https://restcountries.eu/rest/v2/name/${countryName}`;
+  `https://restcountries.com/v3.1/name/${countryName}`;
 
 const createPlacesCardUrl = (capital, apiKey) =>
   `https://api.opentripmap.com/0.1/en/places/geoname?apikey=${apiKey}&name=${capital}`;
@@ -31,13 +31,17 @@ const createTravelBriefingUrl = (countryName) =>
  from the data returned from the API
  */
 
-const getCountryCardData = async (data) => ({
-  name: await data.name,
-  flag: await data.flag,
-  capital: await data.capital,
-  language: await data.languages[0].name,
-  currency: await data.currencies[0].name,
-});
+const getCountryCardData = async (data) => {
+  const languagesArray = await Object.values(data.languages);
+  const currenciesArray = Object.values(data.currencies);
+  return {
+    name: await data.name.common,
+    flag: await data.flags.png,
+    capital: await data.capital[0],
+    language: await languagesArray[0],
+    currency: await currenciesArray[0].name,
+  };
+};
 
 const getListItemData = async (data) =>
   data.map((item) => ({
