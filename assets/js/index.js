@@ -46,9 +46,7 @@ const renderRecentCard = (item) => {
 
 // API call to get country data
 const getRandomCountry = async () => {
-  const allCountryData = await fetchData(
-    "https://restcountries.eu/rest/v2/all"
-  );
+  const allCountryData = await fetchData("https://restcountries.com/v3.1/all");
   const allCountryNames = allCountryData.map((item) => item.name);
   const randomCountry =
     allCountryNames[Math.floor(Math.random() * allCountryNames.length - 1)];
@@ -77,8 +75,7 @@ const handleRandomSearch = async (event) => {
   event.preventDefault();
 
   const randomCountry = await getRandomCountry();
-
-  window.location.href = `${RESULTS_URL}${randomCountry}`;
+  window.location.href = `${RESULTS_URL}${randomCountry.common}`;
 };
 
 const initialisePage = () => {
